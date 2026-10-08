@@ -20,18 +20,3 @@ This artifact evaluates the energy consumption, communication overhead, and scal
 4. **Hybrid QHSG (Proposed):** Gateway-mediated HKDF fusion of ML-KEM-768 and QKD key pools + 64-byte symmetric session distribution.
 
 ---
-
-## 🚀 Quick Start in Google Colab (One-Click)
-
-Click the **Open in Colab** badge above to launch the simulation in an interactive notebook without installing any local packages.
-
----
-
-## 💻 Local Installation & Usage
-
-### 1. Prerequisites & Dependencies
-Clone the repository and install required packages:
-```bash
-git clone [https://github.com/](https://github.com/)<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>.git
-cd <YOUR_REPO_NAME>
-pip install -r requirements.txt
