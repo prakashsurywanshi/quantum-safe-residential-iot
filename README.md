@@ -1,6 +1,6 @@
 # A Sustainable Hybrid QKD–PQC Security Architecture for Quantum-Resilient Residential IoT
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>/blob/main/Quantum_Safe_IoT_Simulation.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/prakashsurywanshi/quantum-safe-residential-iot/blob/main/Quantum_Safe_IoT_Simulation.ipynb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This repository contains the simulation source code, empirical baseline datasets, and figure generation routines for the paper:
