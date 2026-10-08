@@ -20,3 +20,8 @@ This artifact evaluates the energy consumption, communication overhead, and scal
 4. **Hybrid QHSG (Proposed):** Gateway-mediated HKDF fusion of ML-KEM-768 and QKD key pools + 64-byte symmetric session distribution.
 
 ---
+
+## Run Baseline Simulation
+To reproduce the exact figures and CSV tables presented in the paper:
+
+python simulation_benchmarks.py
