@@ -25,3 +25,14 @@ This artifact evaluates the energy consumption, communication overhead, and scal
 To reproduce the exact figures and CSV tables presented in the paper:
 
 python simulation_benchmarks.py
+
+
+## Experiment with Custom Parameters
+The simulation supports custom command-line arguments to test different hardware, transceivers, and network scales:
+
+python simulation_benchmarks.py \
+  --bitrate 250000 \
+  --p_cpu 0.150 \
+  --p_tx 0.280 \
+  --scales 10 50 100 200 500 1000 \
+  --outdir custom_results/
