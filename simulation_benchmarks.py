@@ -6,12 +6,18 @@ import matplotlib.pyplot as plt
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Quantum-Safe Residential IoT Simulation")
-    parser.add_argument("--bitrate", type=float, default=250000, help="Wireless bitrate in bps (default: 250 kbps)")
+    parser.add_argument("--bitrate", type=float, default=1e6, help="Wireless bitrate in bps (default: 1 Mbps, matching manuscript Table 2)")
     parser.add_argument("--p_cpu", type=float, default=0.132, help="MCU CPU Active Power in Watts (default: 0.132 W)")
     parser.add_argument("--p_tx", type=float, default=0.250, help="Transceiver TX Power in Watts (default: 0.250 W)")
-    parser.add_argument("--p_rx", type=float, default=0.180, help="Transceiver RX Power in Watts (default: 0.180 W)")
+    parser.add_argument("--p_rx", type=float, default=0.180, help="Transceiver RX Power in Watts (reserved/unused in the endpoint model)")
     parser.add_argument("--scales", nargs="+", type=int, default=[10, 25, 50, 100, 250, 500], help="List of fleet sizes N")
     parser.add_argument("--outdir", type=str, default="data", help="Output directory")
+    parser.add_argument("--gateway-factor", type=float, default=0.1,
+                        help="Compute scale factor for gateway-mediated schemes (QKD/Hybrid); 1.0 disables offloading")
+    parser.add_argument("--frag-overhead", action="store_true",
+                        help="Enable per-fragment radio overhead term (off by default; manuscript model excludes it)")
+    parser.add_argument("--frag-overhead-cost", type=float, default=0.0005,
+                        help="Seconds of additional active-TX per fragment if --frag-overhead is set")
     return parser.parse_args()
 
 # 6LoWPAN Fragmentation calculation over IEEE 802.15.4 (MTU: 127 Bytes)
@@ -27,21 +33,25 @@ def run_simulation(args):
     fig_dir = os.path.join(args.outdir, "../figures")
     os.makedirs(fig_dir, exist_ok=True)
 
-    # Benchmarks (Time in seconds, Payload in bytes)
+    # Benchmarks (Time in seconds, Payload in bytes) -- Table 1 of the manuscript
     params = {
         'Classical': {'t_comp': 0.015, 'bytes': 128},
         'PQC-Only': {'t_comp': 0.0035, 'bytes': 2272},
         'QKD-Assisted': {'t_comp': 0.0008, 'bytes': 64},
         'Hybrid QHSG': {'t_comp': 0.0009, 'bytes': 64}
     }
+    # Gateway-mediated schemes offload asymmetric crypto to the mains-powered QHSG
+    gateway_mediated = {'QKD-Assisted', 'Hybrid QHSG'}
 
     def calc_energy_endpoint(scheme):
         p = params[scheme]
-        e_comp = p['t_comp'] * args.p_cpu
-        n_frag = calc_fragments(p['bytes'])
+        factor = args.gateway_factor if scheme in gateway_mediated else 1.0
+        e_comp = p['t_comp'] * args.p_cpu * factor
         t_tx = (p['bytes'] * 8) / args.bitrate
-        # Overhead per fragment accounts for MAC preambles & inter-frame spacing
-        e_comm = (t_tx * args.p_tx) + (n_frag * 0.0005 * args.p_tx)
+        e_comm = t_tx * args.p_tx
+        if args.frag_overhead:
+            n_frag = calc_fragments(p['bytes'])
+            e_comm += n_frag * args.frag_overhead_cost * args.p_tx
         return (e_comp + e_comm) * 1000.0  # in mJ
 
     e_unit = {k: calc_energy_endpoint(k) for k in params}
@@ -54,6 +64,8 @@ def run_simulation(args):
         'Hybrid_QHSG_mJ': [n * e_unit['Hybrid QHSG'] for n in args.scales]
     }
     df = pd.DataFrame(results)
+    for col in ['Classical_mJ', 'PQC_Only_mJ', 'QKD_Assisted_mJ', 'Hybrid_QHSG_mJ']:
+        df[col] = df[col].round(2)
     csv_file = os.path.join(args.outdir, "Table_Energy_Results.csv")
     df.to_csv(csv_file, index=False)
     print(f"[✓] Generated dataset saved to {csv_file}")

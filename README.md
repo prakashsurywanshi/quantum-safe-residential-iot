@@ -45,9 +45,12 @@ Constrained leaf endpoints (sensors, actuators, appliances, cameras) communicate
 | `Quantum_Safe_IoT_Simulation.ipynb` | Original Colab notebook (linked by the badge above) |
 | `A_Sustainable_Hybrid_QKD–PQC_..._IoT_.ipynb` | Polished notebook variant; writes to `paper_outputs/` |
 | `Copy of A Sustainable Hybrid ... .ipynb` | Notebook variant that additionally draws the architecture diagrams |
-| `data/Table_Energy_Results.csv` | Result table from the baseline run |
+| `data/Table_Energy_Results.csv` | Result table from the baseline run (reproduces manuscript Table 2) |
 | `custom_results/Table_Energy_Results.csv` | Result table from a custom-parameter run |
 | `figures/` | Generated scalability and workload-efficiency figures (PNG + PDF) |
+| `benchmarks/` | Cycle-level crypto calibration data (pqm4) used in the model |
+| `proverif/` | Formal security verification models and results |
+| `cooja/` | Contiki-NG protocol-level simulation suite (6LoWPAN energy validation) |
 | `PROJECT_NOTES.md` | Detailed technical and reproducibility notes |
 
 ## Requirements
@@ -88,14 +91,17 @@ python simulation_benchmarks.py \
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--bitrate` | `250000` | Wireless bitrate in bps |
+| `--bitrate` | `1000000` | Wireless bitrate in bps (1 Mbps, matching manuscript Table 2) |
 | `--p_cpu` | `0.132` | MCU CPU active power in Watts |
 | `--p_tx` | `0.250` | Transceiver TX power in Watts |
-| `--p_rx` | `0.180` | Transceiver RX power in Watts *(parsed but reserved/unused in the current energy model)* |
+| `--p_rx` | `0.180` | Transceiver RX power in Watts *(parsed but reserved/unused in the endpoint energy model)* |
 | `--scales` | `10 25 50 100 250 500` | List of fleet sizes `N` |
 | `--outdir` | `data` | Output directory for the CSV |
+| `--gateway-factor` | `0.1` | Compute scale factor applied to gateway-mediated schemes (QKD/Hybrid); set `1.0` to disable offloading |
+| `--frag-overhead` | off | Optionally add per-fragment radio overhead to the transmission energy |
+| `--frag-overhead-cost` | `0.0005` | Seconds of active-TX per fragment when `--frag-overhead` is set |
 
-For advanced parameters not exposed as flags (per-scheme compute time and payload, 6LoWPAN fragment sizes, per-frame overhead, workload volumes, and the streaming baseline), see the "Testing other parameters" section below.
+For advanced parameters not exposed as flags (per-scheme compute time and payload, 6LoWPAN fragment sizes, workload volumes, and the streaming baseline), see the "Testing other parameters" section below.
 
 ## Outputs
 
@@ -111,18 +117,21 @@ For advanced parameters not exposed as flags (per-scheme compute time and payloa
 2. Run `python simulation_benchmarks.py`.
 3. Confirm `data/Table_Energy_Results.csv` is generated, then compare against Table 2 and Figures 2–3 of the manuscript.
 
-The default run reproduces the qualitative ordering and the reported energy trends (PQC-Only incurs a large fragmentation/transmission penalty; the proposed Hybrid QHSG tracks QKD-Assisted at a fraction of the PQC cost). Exact numeric settings, calibration constants, and known differences between the script, the notebooks, and the manuscript table are documented in [`PROJECT_NOTES.md`](PROJECT_NOTES.md).
+The default run reproduces the exact per-fleet values reported in Table 2 for the Classical, PQC-Only, and QKD-Assisted configurations (e.g. 500.60 mJ vs. 223.60 mJ at `N = 100`). The proposed Hybrid QHSG row is reproduced at **13.99 mJ @ N = 100** (the value printed in the original manuscript draft, 26.90 mJ, could not be reconstructed from any clean model decomposition and is corrected to the reproducible figure in the revision; see [`PROJECT_NOTES.md`](PROJECT_NOTES.md)). The 6LoWPAN fragmentation penalty behind the PQC overhead is further validated by the independent COOJA protocol-level simulation in [`cooja/`](cooja/), and the security properties are machine-checked in [`proverif/`](proverif/).
+
+The qualitative ordering and headline energy trends (PQC-Only carrying a large transmission/fragmentation penalty; the proposed Hybrid QHSG tracking QKD-Assisted at a fraction of the PQC cost) are preserved across parameter settings. Within the old default configuration these rows historically differed from the manuscript; the current default is the reconciled, paper-accurate model. Exact numeric settings, calibration constants, and the reconciliation are documented in [`PROJECT_NOTES.md`](PROJECT_NOTES.md).
 
 ### Testing other parameters
 
-Only six flags are exposed by the CLI. To change the cryptographic benchmarks, fragmentation model, workload volumes, or streaming baseline, edit the corresponding constants in `simulation_benchmarks.py`:
+Only the CLI flags above are exposed for the runtime parameters. To change the cryptographic benchmarks, fragmentation model, workload volumes, or streaming baseline, edit the corresponding constants in `simulation_benchmarks.py`:
 
 | Constant | Location | Purpose |
 |----------|----------|---------|
-| `params` (`t_comp`, `bytes`) | `simulation_benchmarks.py:31-36` | Per-scheme compute time and payload |
-| `s_first`, `s_sub` | `simulation_benchmarks.py:19-20` | 6LoWPAN fragment sizes (105 / 111 bytes) |
-| per-fragment overhead `0.0005` | `simulation_benchmarks.py:44` | MAC preamble / inter-frame spacing per fragment |
-| `workloads`, `base_stream_mj = workloads * 12.0` | `simulation_benchmarks.py:79-80` | Workload-normalized efficiency inputs |
+| `params` (`t_comp`, `bytes`) | `simulation_benchmarks.py:37-41` | Per-scheme compute time and payload (Table 1) |
+| `gateway_mediated` | `simulation_benchmarks.py:44` | Schemes whose compute is offloaded to the QHSG |
+| `s_first`, `s_sub` | `simulation_benchmarks.py:25-26` | 6LoWPAN fragment sizes (105 / 111 bytes) |
+| per-fragment overhead | `simulation_benchmarks.py:52-54` | Active-TX cost per fragment (only with `--frag-overhead`) |
+| `workloads`, `base_stream_mj = workloads * 12.0` | `simulation_benchmarks.py:91-92` | Workload-normalized efficiency inputs |
 
 ## Notebooks
 

@@ -123,14 +123,12 @@ Headline comparisons: direct ML-KEM-768 on leaf endpoints = **+123.9%** energy v
 
 | Lines | Function / block | Role |
 |-------|------------------|------|
-| 7–15 | `parse_args()` | CLI definition (6 flags) |
-| 18–23 | `calc_fragments()` | 6LoWPAN fragment count (`105`/`111` byte thresholds) |
-| 25–60 | `run_simulation()` | Energy model, CSV export |
-| 31–36 | `params` dict | Per-scheme `t_comp` and `bytes` |
-| 38–45 | `calc_energy_endpoint()` | Compute + TX + per-fragment overhead energy |
-| 49–58 | `results` / DataFrame | Fleet aggregation and `data/Table_Energy_Results.csv` |
-| 62–76 | Figure 1 block | Scalability plot |
-| 78–103 | Figure 2 block | Workload-normalized efficiency, at the `N = 100` index |
+| 7–30 | CLI args + `calc_fragments()` | Flag definitions; 6LoWPAN fragment count (`105`/`111` byte thresholds) |
+| 31–44 | `run_simulation()` setup | Output dirs; `params` (Table 1) and `gateway_mediated` scheme set |
+| 46–55 | `calc_energy_endpoint()` | Compute (+ gateway factor) + TX (+ optional per-fragment overhead) energy |
+| 57–70 | `results` / DataFrame | Fleet aggregation, 2-decimal rounding, `data/Table_Energy_Results.csv` |
+| 74–88 | Figure 1 block | Scalability plot |
+| 90–... | Figure 2 block | Workload-normalized efficiency, at the `N = 100` index |
 
 ### Notebooks
 
@@ -166,39 +164,48 @@ Environment used for the committed results: Python 3.12, numpy 2.5.3, pandas 3.0
 
 ## 8. Known discrepancies and caveats
 
-The script, the notebooks, and the manuscript are **not numerically identical**. Reviewers should be aware of the following.
+The script now reproduces the manuscript's Table 2 exactly for the Classical, PQC-Only, and QKD-Assisted rows, and for the corrected Hybrid row (see column 10 below). Remaining items:
 
-| # | Item | Script (`simulation_benchmarks.py`) | Notebook | Manuscript |
-|---|------|-------------------------------------|----------|------------|
-| 1 | Default bitrate | `250000` bps | `1e6` bps | Text says 250 kbps, but Table 2 numbers correspond to 1 Mbps |
-| 2 | Per-fragment overhead | Adds `n_frag × 0.0005 × P_TX` (`:44`) | Not modeled | Term absent from Table 2 |
-| 3 | Gateway compute factor | QKD/Hybrid use small `t_comp` as-is (no ×0.1) | Multiplies compute by ×0.1 for gateway-mediated schemes | Matches notebook for QKD/Hybrid |
-| 4 | Hybrid payload | 64 B (`:34-35`) | 2272 + 64 = 2336 B | Table 1: 64 B |
-| 5 | Hybrid `t_comp` | 0.9 ms | 4.2 ms | Table 1: 0.9 ms |
-| 6 | Figures output path | `<outdir>/../figures` — runs share and overwrite figure files | Written to CWD / `paper_outputs/` | — |
+| # | Item | Script (`simulation_benchmarks.py`) | Notebook | Manuscript / status |
+|---|------|-------------------------------------|----------|---------------------|
+| 1 | Default bitrate | `1e6` bps (was `250000`) | `1e6` bps | **Resolved** — 1 Mbps adopted as canonical; manuscript §14 text corrected from "250 kbps" |
+| 2 | Per-fragment overhead | Opt-in via `--frag-overhead` (default off; previously always on) | Not modeled | **Resolved** — excluded from the canonical model, matching Table 2 |
+| 3 | Gateway compute factor | `--gateway-factor 0.1` for QKD/Hybrid (`:48-49`); previously none | ×0.1 for gateway-mediated | **Resolved** — script and notebook now agree |
+| 4 | Hybrid payload | 64 B (`:41`) | 2272 + 64 = 2336 B | Script follows Table 1 (64 B); notebook is exploratory and not canonical |
+| 5 | Hybrid `t_comp` | 0.9 ms | 4.2 ms | Script follows Table 1 (0.9 ms) |
+| 6 | Legacy row values | Old default run (250 kbps + overhead) reported Classical 325.40 mJ, PQC 2126.30 mJ @ N=100 | — | Superseded; recreated with `--bitrate 250000 --frag-overhead` only for historical comparison |
+| 7 | Hybrid Table-2 value | **13.99 mJ @ N=100** (reproducible) | — | Original draft printed 26.90 mJ, which **cannot be reconstructed** from any clean decomposition of Table 1 parameters; corrected to the reproducible value in the revision |
 
-**Consequence:** the default script run does **not** reproduce manuscript Table 2 exactly. For example, at `N = 100` the committed baseline CSV reports Classical 325.40 mJ, PQC-Only 2126.30 mJ, QKD-Assisted 74.26 mJ, and Hybrid QHSG 75.58 mJ. Reconstructing Table 2 requires 1 Mbps and removal of the per-fragment overhead term, plus the gateway compute factor. The manuscript's Hybrid value (0.269 mJ/device) does not precisely match any committed configuration; this should be reconciled before any camera-ready/artifact-release update.
+**Reconciliation note (item 7):** the per-device curve that reproduces Table 2 for Classical (2.236 mJ), PQC-Only (5.006 mJ), and QKD-Assisted (0.13856 mJ) is
+
+```
+E_device(scheme) = ( t_comp · P_CPU · factor + (bytes · 8 / 1e6) · P_TX ) × 1000   [mJ/device]
+factor = 0.1 for QKD-Assisted and Hybrid QHSG, else 1.0
+```
+
+with Table 1 parameters (Classical 15 ms/128 B, PQC 3.5 ms/2272 B, QKD 0.8 ms/64 B, Hybrid 0.9 ms/64 B). This yields Hybrid = 0.13988 mJ/device → **13.99 mJ @ N=100**. Headline percentages under the reconciled model: PQC-Only vs. Classical **+123.9%** (unchanged); Hybrid QHSG vs. PQC-Only **−97.2%** and vs. Classical **−93.7%** (slightly stronger than the draft's 94.6%/88.0%, which were anchored to the unreproducible 26.90 mJ value). The revision must carry these corrected figures.
 
 **Other caveats:**
 
-- `--p_rx` is parsed but never used in the energy computation (line 6 of the CLI is effectively dead).
-- The committed `figures/` currently reflect the **custom-parameter** run (the second invocation overwrote the baseline figures because of caveat #6); `data/` holds the baseline CSV and `custom_results/` the custom CSV.
-- `venv` cannot be created inside a directory path containing `:` (the workspace path does); create the environment elsewhere.
+- `--p_rx` is parsed but never used in the endpoint energy computation.
+- The committed `figures/` reflect the current (canonical) baseline run; because figures are written to `<outdir>/../figures`, any later run sharing the parent overwrites them (the CSV in each `--outdir` is preserved).
+- `venv` cannot be created inside a directory path containing `:`; create the environment elsewhere.
 
 ---
 
 ## 9. Testing other parameters
 
-Vary the exposed flags directly (`--bitrate`, `--p_cpu`, `--p_tx`, `--p_rx`, `--scales`, `--outdir`). To change the hardcoded benchmarks, edit:
+Vary the exposed flags directly (`--bitrate`, `--p_cpu`, `--p_tx`, `--p_rx`, `--scales`, `--outdir`, `--gateway-factor`, `--frag-overhead`, `--frag-overhead-cost`). To change the hardcoded benchmarks, edit:
 
 | Constant | Location |
 |----------|----------|
-| `params` (`t_comp`, `bytes`) | `simulation_benchmarks.py:31-36` |
-| `s_first`, `s_sub` | `simulation_benchmarks.py:19-20` |
-| per-fragment overhead `0.0005` | `simulation_benchmarks.py:44` |
-| `workloads`, `base_stream_mj` (`×12.0`) | `simulation_benchmarks.py:79-80` |
+| `params` (`t_comp`, `bytes`) | `simulation_benchmarks.py:37-41` |
+| `gateway_mediated` | `simulation_benchmarks.py:44` |
+| `s_first`, `s_sub` | `simulation_benchmarks.py:25-26` |
+| per-fragment overhead | `simulation_benchmarks.py:52-54` (with `--frag-overhead`) |
+| `workloads`, `base_stream_mj` (`×12.0`) | `simulation_benchmarks.py:91-92` |
 
-The current artifact intentionally exposes only these six CLI parameters; parameterizing the remaining constants (e.g., `--scheme-tcomp`, `--scheme-bytes`, `--frag-first`, `--stream-mj-per-mb`) is a natural future enhancement but was left out of the reviewed snapshot to avoid changing default results.
+The artifact intentionally keeps the exposed CLI surface small so the canonical defaults are the paper-accurate model; parameterizing the remaining constants (e.g., `--scheme-tcomp`, `--scheme-bytes`) is a natural future enhancement that was left out of the reviewed snapshot to avoid changing default results.
 
 ---
 
