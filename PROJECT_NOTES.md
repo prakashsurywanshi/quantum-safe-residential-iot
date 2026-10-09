@@ -106,14 +106,16 @@ Calibration: ARM Cortex-M4 @ 168 MHz, `P_CPU = 132 mW` (3.3 V × 40 mA), IEEE 80
 
 | Scale (N) | Classical (mJ) | PQC-Only (mJ) | QKD-Assisted (mJ) | Hybrid QHSG (mJ) |
 |-----------|----------------|---------------|-------------------|------------------|
-| 10 | 22.36 | 50.06 | 1.39 | 2.69 |
-| 25 | 55.90 | 125.15 | 3.46 | 6.73 |
-| 50 | 111.80 | 250.30 | 6.93 | 13.45 |
-| 100 | 223.60 | 500.60 | 13.86 | 26.90 |
-| 250 | 559.00 | 1251.50 | 34.64 | 67.25 |
-| 500 | 1118.00 | 2503.00 | 69.28 | 134.50 |
+| 10 | 22.36 | 50.06 | 1.39 | 1.40 |
+| 25 | 55.90 | 125.15 | 3.46 | 3.50 |
+| 50 | 111.80 | 250.30 | 6.93 | 6.99 |
+| 100 | 223.60 | 500.60 | 13.86 | 13.99 |
+| 250 | 559.00 | 1251.50 | 34.64 | 34.98 |
+| 500 | 1118.00 | 2503.00 | 69.28 | 69.95 |
 
-Headline comparisons: direct ML-KEM-768 on leaf endpoints = **+123.9%** energy vs. classical ECDH; proposed QHSG = **−94.6%** vs. direct PQC and **−88.0%** vs. classical ECDH. At 1000 MB the workload-normalized efficiency converges to ≈ 12.03 mJ/MB as handshake cost is amortized.
+Headline comparisons: direct ML-KEM-768 on leaf endpoints = **+123.9%** energy vs. classical ECDH; proposed QHSG = **−97.2%** vs. direct PQC and **−93.7%** vs. classical ECDH. At large workloads the handshake amortizes and QHSG remains strongly gateway-mediated.
+
+---
 
 ---
 
