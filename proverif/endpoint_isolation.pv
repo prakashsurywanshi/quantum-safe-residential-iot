@@ -1,0 +1,55 @@
+(* ============================================================
+   endpoint_isolation.pv
+   Compartmentalization of the QHSG (manuscript Eq. 3).
+
+   The device context C = DevID || QHSG_ID || SeqNum || Version
+   is folded into the session-key derivation (Eq. 2).  Two
+   endpoints A and B live on the same gateway and therefore share
+   the same long-term material (Kq, Kp); their session keys are
+
+       KsA = HKDF-Expand(PRK, C_A)
+       KsB = HKDF-Expand(PRK, C_B)
+
+   Scenario: endpoint A is COMPROMISED --- the attacker learns
+   KsA outright.  Question: can the attacker decrypt endpoint B's
+   data plane (secretB, sent under KsB)?
+
+   Property: B's data stays confidential (attacker(secretB)
+   false).  The one-way HKDF expansion and context binding
+   prevent lateral movement even though KsA is fully exposed.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- gateway master secrets shared by both endpoints (Eq. 1) --- *)
+free kq : bitstring [private].
+free kp : bitstring [private].
+
+(* --- device contexts (Eq. 3); both are public identifiers --- *)
+const ctxA : bitstring.
+const ctxB : bitstring.
+
+(* --- B's data-plane payload (Eq. 4) --- *)
+free secretB : bitstring [private].
+
+(* --- HKDF-SHA256 --- *)
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+
+(* --- AEAD (AES-256-GCM), Eq. 4 --- *)
+fun aead_enc(bitstring, bitstring, bitstring) : bitstring.
+reduc forall k : bitstring, n : bitstring, m : bitstring;
+  aead_dec(k, n, aead_enc(k, n, m)) = m.
+
+(* ---------- queries (declared before the main process) ---------- *)
+query attacker(secretB).      (* endpoint B data stays confidential   *)
+query attacker(kq).
+query attacker(kp).
+
+process
+  (let prk = hkdf_extract(kq, kp) in
+   let ksA = hkdf_expand(prk, ctxA) in
+   let ksB = hkdf_expand(prk, ctxB) in
+   (new n : bitstring;
+    out(c, ksA);                     (* compromise of endpoint A *)
+    out(c, aead_enc(ksB, n, secretB))))   (* B's live traffic *)

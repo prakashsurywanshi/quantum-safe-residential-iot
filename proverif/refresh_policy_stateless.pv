@@ -1,0 +1,61 @@
+(* ============================================================
+   refresh_policy_stateless.pv
+   Adaptive-refresh policy invariant (manuscript Eq. 10):
+   each session nonce / SeqNum in C is consumed at most once.
+
+   This configuration models an endpoint WITHOUT the Eq. 10
+   single-use nonce registry (a refresh-free, latency-optimized
+   device).  Invariant to prove:
+
+     inj-event(nonceConsumed(x)) ==> inj-event(nonceIssued(x))
+
+   Expected result: the invariant FAILS.  ProVerif exhibits a
+   ticket-replay attack: a captured ticket is replayed against
+   the stateless endpoint, so the same nonce is consumed twice
+   (two nonceConsumed events collide on one nonceIssued event)
+   --- re-entering a stale session that Eq. 10 should rotate.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- gateway master secrets (Eq. 1) --- *)
+free kq : bitstring [private].
+free kp : bitstring [private].
+(* --- device ticket key --- *)
+free endpKey : bitstring [private].
+
+(* --- HKDF-SHA256 (Eqs. 1-2) --- *)
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+
+(* --- session ticket wrapping the nonce / SeqNum --- *)
+fun mk_ticket(bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, tok : bitstring;
+  open_ticket(devk, mk_ticket(devk, tok)) = tok.
+
+event nonceIssued(bitstring).
+event nonceConsumed(bitstring).
+
+(* --- gateway: issue one fresh nonce-bearing ticket per session --- *)
+let gatewaySession =
+  new ctx : bitstring;
+  let prk = hkdf_extract(kq, kp) in
+  let ks  = hkdf_expand(prk, ctx) in
+  event nonceIssued(ctx);
+  out(c, mk_ticket(endpKey, ctx)).
+
+(* --- endpoint WITHOUT refresh state: consumes any valid nonce --- *)
+let endpointStateless =
+  in(c, t : bitstring);
+  let x : bitstring = open_ticket(endpKey, t) in
+  event nonceConsumed(x);
+  0.
+
+(* ---------- queries (declared before the main process) ---------- *)
+query s : bitstring; inj-event(nonceConsumed(s)) ==> inj-event(nonceIssued(s)).
+query attacker(kq).
+query attacker(kp).
+query attacker(endpKey).
+
+process
+  !gatewaySession | !endpointStateless

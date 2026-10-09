@@ -1,0 +1,61 @@
+(* ============================================================
+   forward_secrecy.pv
+   Harvest-now-decrypt-later (H-D-L) resistance for the QHSG.
+
+   Session keys Ks = HKDF-Expand(HKDF-Extract(Kq, Kp), C)
+   (Eqs. 1-2) are bound to the PER-SESSION ML-KEM agreement Kp,
+   which is consumed and deleted at the end of the session (Eq. 10
+   rotation).  The QKD-derived Kq is long-lived on the gateway.
+
+   Model: a gateway computes one session key from Kq and a fresh
+   one-time Kp, encrypts the data plane under AES-256-GCM (Eq. 4)
+   and transmits it.  LATER (post-hoc compromise) the attacker
+   recovers the long-lived QKD material Kq outright (physical
+   gateway compromise / harvesting of recorded key material, the
+   quantum harvest-now scenario).
+
+   Property to prove:
+
+     attacker(secretData) is FALSE
+
+   even though Kq is fully disclosed: a quantum-capable adversary
+   that recorded all ciphertext cannot decrypt past sessions,
+   because recovering PRK = HKDF-Extract(Kq, Kp) requires the
+   one-time Kp which was never stored and was deleted at
+   rotation time.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- long-term gateway QKD material (Eq. 1); disclosed later --- *)
+free kq : bitstring [private].
+
+(* --- data-plane payload of a past session --- *)
+free secretData : bitstring [private].
+
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+fun aead_enc(bitstring, bitstring, bitstring) : bitstring.
+reduc forall k : bitstring, n : bitstring, m : bitstring;
+  aead_dec(k, n, aead_enc(k, n, m)) = m.
+
+event endSession(bitstring).
+
+(* --- one full session lifecycle --- *)
+let session =
+  new kp : bitstring;                  (* one-time ML-KEM agreement Kp    *)
+  new ctx : bitstring;
+  let prk = hkdf_extract(kq, kp) in
+  let ks  = hkdf_expand(prk, ctx) in
+  new n : bitstring;
+  out(c, aead_enc(ks, n, secretData));
+  event endSession(ks).
+
+(* ---------- queries (declared before the main process) ---------- *)
+query attacker(secretData).            (* recorded traffic stays confidential *)
+
+process
+  !session
+  |
+  (* post-hoc compromise: attacker recovers the long-lived Kq *)
+  out(c, kq)

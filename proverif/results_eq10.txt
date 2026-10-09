@@ -1,0 +1,77 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}in(c, z: bitstring);
+    {3}new ctx: bitstring;
+    {4}let prk: bitstring = hkdf_extract(kq,kp) in
+    {5}let ks: bitstring = hkdf_expand(prk,ctx) in
+    {6}event nonceIssued(ctx);
+    {7}out(c, mk_ticket(endpKey,z,ctx))
+) | (
+    {8}!
+    {9}new z_1: bitstring;
+    {10}out(c, z_1);
+    {11}in(c, t: bitstring);
+    {12}let (w: bitstring,x: bitstring) = open_ticket(endpKey,t) in
+    {13}if (w = z_1) then
+    {14}event nonceConsumed(x)
+)
+
+--  Process 1 (that is, process 0, with let moved downwards):
+(
+    {1}!
+    {2}in(c, z: bitstring);
+    {3}new ctx: bitstring;
+    {6}event nonceIssued(ctx);
+    {7}out(c, mk_ticket(endpKey,z,ctx))
+) | (
+    {8}!
+    {9}new z_1: bitstring;
+    {10}out(c, z_1);
+    {11}in(c, t: bitstring);
+    {12}let (w: bitstring,x: bitstring) = open_ticket(endpKey,t) in
+    {13}if (w = z_1) then
+    {14}event nonceConsumed(x)
+)
+
+-- Query inj-event(nonceConsumed(s)) ==> inj-event(nonceIssued(s)) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query inj-event(nonceConsumed(s)) ==> inj-event(nonceIssued(s))
+goal reachable: b-inj-event(nonceIssued(ctx_1),@occ6_1) -> inj-event(nonceConsumed(ctx_1),@occ14_1)
+The hypothesis occurs strictly before the conclusion.
+Abbreviations:
+z_2 = z_1[!1 = @sid]
+ctx_1 = ctx[z = z_2,!1 = @sid_1]
+@occ14_1 = @occ14[t = mk_ticket(endpKey[],z_2,ctx_1),!1 = @sid]
+@occ6_1 = @occ6[z = z_2,!1 = @sid_1]
+RESULT inj-event(nonceConsumed(s)) ==> inj-event(nonceIssued(s)) is true.
+-- Query not attacker(kq[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(kq[])
+RESULT not attacker(kq[]) is true.
+-- Query not attacker(kp[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(kp[])
+RESULT not attacker(kp[]) is true.
+-- Query not attacker(endpKey[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(endpKey[])
+RESULT not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query inj-event(nonceConsumed(s)) ==> inj-event(nonceIssued(s)) is true.
+
+Query not attacker(kq[]) is true.
+
+Query not attacker(kp[]) is true.
+
+Query not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+

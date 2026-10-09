@@ -1,0 +1,68 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}new ctx: bitstring;
+    {3}let prk: bitstring = hkdf_extract(kq,kp) in
+    {4}let ks: bitstring = hkdf_expand(prk,ctx) in
+    {5}event beginSession(ctx);
+    {6}new n: bitstring;
+    {7}out(c, mk_ticket(endpKey,pairCtx(ctx,ks)));
+    {8}out(c, aead_enc(ks,n,secretPayload))
+) | (
+    {9}!
+    {10}in(c, t: bitstring);
+    {11}let (x: bitstring,ks_1: bitstring) = open_ticket(endpKey,t) in
+    {12}event endSession(x)
+)
+
+--  Process 1 (that is, process 0, with let moved downwards):
+(
+    {1}!
+    {2}new ctx: bitstring;
+    {5}event beginSession(ctx);
+    {6}new n: bitstring;
+    {3}let prk: bitstring = hkdf_extract(kq,kp) in
+    {4}let ks: bitstring = hkdf_expand(prk,ctx) in
+    {7}out(c, mk_ticket(endpKey,pairCtx(ctx,ks)));
+    {8}out(c, aead_enc(ks,n,secretPayload))
+) | (
+    {9}!
+    {10}in(c, t: bitstring);
+    {11}let (x: bitstring,ks_1: bitstring) = open_ticket(endpKey,t) in
+    {12}event endSession(x)
+)
+
+-- Query not attacker(secretPayload[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(secretPayload[])
+RESULT not attacker(secretPayload[]) is true.
+-- Query not attacker(kq[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(kq[])
+RESULT not attacker(kq[]) is true.
+-- Query not attacker(kp[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(kp[])
+RESULT not attacker(kp[]) is true.
+-- Query event(endSession(s)) ==> event(beginSession(s)) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query event(endSession(s)) ==> event(beginSession(s))
+RESULT event(endSession(s)) ==> event(beginSession(s)) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query not attacker(secretPayload[]) is true.
+
+Query not attacker(kq[]) is true.
+
+Query not attacker(kp[]) is true.
+
+Query event(endSession(s)) ==> event(beginSession(s)) is true.
+
+--------------------------------------------------------------
+
