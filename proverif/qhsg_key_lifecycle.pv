@@ -1,0 +1,78 @@
+(* ============================================================
+   qhsg_key_lifecycle.pv
+   Session-key lifecycle of the QHSG (manuscript Eqs. 1-4):
+     PRK = HKDF-Extract(Salt, Kq || Kp)                (Eq. 1)
+     Ks  = HKDF-Expand(PRK, C)                          (Eq. 2)
+     C   = DevID || QHSG_ID || SeqNum || Version        (Eq. 3)
+     Ci, Ti = AEAD_Ks(Pi, Ni, Ai)                       (Eq. 4)
+
+   Assumptions (symbolic, Dolev-Yao adversary):
+     - Kq (QKD key material) and Kp (ML-KEM-768 agreement)
+       are private to the gateway;
+     - the gateway and each endpoint share a device-specific
+       pre-shared key endpKey used only to wrap the ticket;
+     - the attacker controls the leaf/control channel c.
+
+   Verified properties:
+     P1  Data-plane confidentiality: secretPayload (Eq. 4 data)
+         cannot be learned by the attacker.
+     P2  Session-key origin authentication: every accepted
+         session was started by the gateway (event
+         correspondence endSession -> beginSession).
+   ============================================================ *)
+
+
+free c : channel.
+
+(* --- gateway master secrets (Eq. 1) --- *)
+free kq       : bitstring [private].
+free kp       : bitstring [private].
+(* --- device pre-shared ticket key --- *)
+free endpKey  : bitstring [private].
+(* --- application data (data plane, Eq. 4) --- *)
+free secretPayload : bitstring [private].
+
+(* --- HKDF-SHA256 --- *)
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+
+(* --- session ticket wrapper (64-byte ticket distribution) --- *)
+fun mk_ticket(bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, payload : bitstring;
+  open_ticket(devk, mk_ticket(devk, payload)) = payload.
+
+(* --- AEAD (AES-256-GCM), Eq. 4 --- *)
+fun aead_enc(bitstring, bitstring, bitstring) : bitstring.
+reduc forall k : bitstring, n : bitstring, m : bitstring;
+  aead_dec(k, n, aead_enc(k, n, m)) = m.
+
+(* --- tuple pairing (context label C, Eq. 3 inside ticket) --- *)
+fun pairCtx(bitstring, bitstring) : bitstring.
+reduc forall c1 : bitstring, c2 : bitstring; unpairCtx(pairCtx(c1, c2)) = c1.
+
+(* --- events --- *)
+event beginSession(bitstring).
+event endSession(bitstring).
+
+let gatewaySession =
+  new ctx : bitstring;                                (* fresh context C (Eq. 3) *)
+  let prk = hkdf_extract(kq, kp) in             (* Eq. 1 *)
+  let ks  = hkdf_expand(prk, ctx) in            (* Eq. 2  (32-byte L) *)
+  event beginSession(ctx);
+  new n : bitstring;                            (* monotonic nonce Ni *)
+  out(c, mk_ticket(endpKey, pairCtx(ctx, ks)));
+  out(c, aead_enc(ks, n, secretPayload)).       (* Eq. 4 *)
+
+let endpointSession =
+  in(c, t : bitstring);
+  let (x : bitstring, ks : bitstring) = open_ticket(endpKey, t) in
+  event endSession(x).
+
+(* ---------- queries (declared before the main process) ---------- *)
+query attacker(secretPayload).                              (* P1: data-plane confidentiality *)
+query attacker(kq).                                         (* QKD material unrecoverable *)
+query attacker(kp).                                         (* ML-KEM agreement unrecoverable *)
+query s : bitstring; event(endSession(s)) ==> event(beginSession(s)).   (* P2: origin authentication *)
+
+process
+  !gatewaySession | !endpointSession

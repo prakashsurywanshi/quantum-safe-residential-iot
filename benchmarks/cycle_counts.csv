@@ -1,0 +1,11 @@
+scheme,operation,implementation,cycles_mean,executions,source
+ECDH-X25519,scalar_mult,deGroot-M4,1816351,-,dfaranha/x25519-cortexm4 (de Groot thesis TU/e 2019)
+ML-KEM-768,keygen,m4fspeed,642096,10,mupq/pqm4 benchmarks.csv
+ML-KEM-768,encaps,m4fspeed,658754,10,mupq/pqm4 benchmarks.csv
+ML-KEM-768,decaps,m4fspeed,707827,10,mupq/pqm4 benchmarks.csv
+ML-KEM-768,keygen,clean,988722,10,mupq/pqm4 benchmarks.csv
+ML-KEM-768,encaps,clean,1138225,10,mupq/pqm4 benchmarks.csv
+ML-KEM-768,decaps,clean,1387984,10,mupq/pqm4 benchmarks.csv
+ML-KEM-768,encaps,mlkem-native,905221,100,mupq/pqm4 benchmarks.csv
+ML-KEM-768,decaps,mlkem-native,1119531,100,mupq/pqm4 benchmarks.csv
+AES-256-GCM,aead_128B,mbedtls-m4,37632,-,mbed TLS benchmark: AES-GCM-256 ~= 294 cyc/B on Cortex-M4 (NUCLEO_F303RE); range 264-311

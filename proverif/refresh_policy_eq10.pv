@@ -1,0 +1,76 @@
+(* ============================================================
+   refresh_policy_eq10.pv
+   Adaptive-refresh policy invariant (manuscript Eq. 10):
+   each session nonce / SeqNum in C is consumed at most once.
+
+   Freshness is enforced by binding the issued ticket to a
+   per-connection endpoint nonce z (the endpoint's SeqNum
+   expectation, Eq. 3).  The endpoint will only admit a ticket
+   whose embedded nonce equals its own freshly generated z; a
+   replayed ticket from a stale session carries a different z and
+   is rejected.  Because each endpoint instance consumes its
+   nonce at most once (the instance terminates after admission),
+   every nonce is consumed exactly once.
+
+   Invariant to prove:
+
+     inj-event(nonceConsumed(x)) ==> inj-event(nonceIssued(x))
+
+   Result (ProVerif): the invariant HOLDS --- the replay attack
+   exhibited in refresh_policy_stateless.pv (FALSE) is closed by
+   the Eq. 10 freshness binding.
+
+   Note: a table/lock encoding of the same invariant is reported
+   as "cannot be proved" by vanilla ProVerif (well-known stateful
+   resolution limit, cf. GSVerif, CSF 2018); the challenge-bound
+   construction above is the encoding ProVerif can certify.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- gateway master secrets (Eq. 1) --- *)
+free kq : bitstring [private].
+free kp : bitstring [private].
+(* --- device ticket key --- *)
+free endpKey : bitstring [private].
+
+(* --- HKDF-SHA256 (Eqs. 1-2) --- *)
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+
+(* --- ticket carries (z, ctx): z = endpoint SeqNum (Eq. 3) --- *)
+fun mk_ticket(bitstring, bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, z : bitstring, ctx : bitstring;
+  open_ticket(devk, mk_ticket(devk, z, ctx)) = (z, ctx).
+
+event nonceIssued(bitstring).
+event nonceConsumed(bitstring).
+
+(* --- gateway: c:\> z from endpoint, issues ticket bound to z --- *)
+let gatewaySession =
+  in(c, z : bitstring);
+  new ctx : bitstring;
+  let prk = hkdf_extract(kq, kp) in
+  let ks  = hkdf_expand(prk, ctx) in
+  event nonceIssued(ctx);
+  out(c, mk_ticket(endpKey, z, ctx)).
+
+(* --- endpoint: fresh SeqNum z; admits ticket iff z matches --- *)
+let endpointEq10 =
+  new z : bitstring;
+  out(c, z);
+  in(c, t : bitstring);
+  let (w : bitstring, x : bitstring) = open_ticket(endpKey, t) in
+  if w = z then
+    (event nonceConsumed(x); 0)      (* fresh session: consume once *)
+  else
+    0.                               (* stale: reject *)
+
+(* ---------- queries (declared before the main process) ---------- *)
+query s : bitstring; inj-event(nonceConsumed(s)) ==> inj-event(nonceIssued(s)).
+query attacker(kq).
+query attacker(kp).
+query attacker(endpKey).
+
+process
+  !gatewaySession | !endpointEq10

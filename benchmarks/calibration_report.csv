@@ -1,0 +1,6 @@
+row,implementation,cycles,t_measured_ms,e_measured_mJ,t_assumed_ms,e_assumed_mJ,ratio_measured_assumed
+Classical (ECDH),X25519 scalar mult (one side of ECDH),1816351,10.8116,1.4271,15.0,1.98,0.721
+PQC-Only (ML-KEM-768) enclap only,single encapsulation,658754,3.9212,0.5176,3.5,0.462,1.12
+PQC-Only (ML-KEM-768) full handshake,keygen + decaps (leaf-terminated),1349923,8.0353,1.0607,3.5,0.462,2.296
+QKD-Assisted (endpoint bound),AES-256-GCM over 128 B session block,37632,0.224,0.0296,0.8,0.1056,0.28
+Hybrid QHSG (endpoint bound),AES-256-GCM over 128 B session block,37632,0.224,0.0296,0.9,0.1188,0.249
