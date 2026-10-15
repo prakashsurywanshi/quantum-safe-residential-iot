@@ -1,0 +1,33 @@
+Key Points — for editor reference
+Manuscript: A Sustainable Hybrid QKD–PQC Security Architecture for
+            Quantum-Resilient Residential IoT
+Author: Prakash Suryawanshi (Qodeigence Infocircle Private Limited)
+Artifact: https://github.com/prakashsurywanshi/quantum-safe-residential-iot
+          (branch ieee-submission, tag ieee-v1.0)
+
+1. Gateway-centric hybrid QKD–PQC architecture (QHSG) isolates asymmetric
+   post-quantum key management from high-volume leaf-node data traffic, keeping
+   constrained IoT endpoints symmetric-only.
+
+2. Hardware-grounded security–sustainability model: IEEE 802.15.4 physical-layer
+   radio constants (TX 22 mW, RX 21 mW at 250 kbps), ARM Cortex-M4 cycle counts,
+   and 6LoWPAN fragmentation as explicit design parameters.
+
+3. Direct leaf-node PQC raises endpoint key-negotiation energy by +108.4%
+   (328.46 mJ vs 157.63 mJ at N=100) because the 2272-byte ML-KEM-768 handshake
+   fragments into 24 IEEE 802.15.4 frames.
+
+4. The proposed hybrid architecture reduces endpoint key-management energy by
+   −96.8% vs standalone PQC and −93.3% vs classical ECDH — a sustainable path to
+   post-quantum resilience for battery-driven smart homes.
+
+5. Protocol-level validation in executed Contiki-NG/COOJA across seven payload
+   sizes (64–2272 B); measured frame counts (1, 2, 3, 6, 11, 13, 24) match the
+   closed form ceil((payload+12)/96) exactly.
+
+6. Formal verification in ProVerif 2.05 of key-lifecycle secrecy and
+   authentication, single-use refresh, endpoint isolation, gateway-compromise
+   forward secrecy, key independence, replay under loss, and impersonation.
+
+7. Fully reproducible: public tagged artifact with one run script per evidence
+   stream, including the Contiki-NG patch needed for the 2272-byte handshake.

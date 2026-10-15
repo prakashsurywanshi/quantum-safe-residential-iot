@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\begin{document}
+
+\begin{flushright}
+Prakash Suryawanshi\\
+Qodeigence Infocircle Private Limited\\
+Maharashtra, India\\
+\texttt{prakashsurywanshi1@live.com}
+\end{flushright}
+
+\vspace{0.5em}
+\today
+
+\vspace{1em}
+The Editor-in-Chief\\
+\textit{IEEE Internet of Things Journal}\\
+% (Alternative target: IEEE Internet of Things Magazine --- adjust addressee accordingly.)
+IEEE
+
+\vspace{1em}
+\textbf{Subject: Submission of an original research manuscript --- ``A Sustainable Hybrid QKD--PQC Security Architecture for Quantum-Resilient Residential IoT''}
+
+\vspace{0.5em}
+Dear Editor,
+
+On behalf of my co-authors and myself, I am pleased to submit the original research
+manuscript entitled ``A Sustainable Hybrid QKD--PQC Security Architecture for
+Quantum-Resilient Residential IoT'' for consideration in the
+\emph{IEEE Internet of Things Journal}. The manuscript has not been published
+previously and is not under consideration for publication elsewhere.
+
+\section*{Scope and Significance}
+Battery-powered residential IoT nodes must remain operational for years while facing
+the emerging threat of quantum cryptanalysis and the ``harvest-now, decrypt-later''
+attack model. Migrating conventional public-key cryptography to standardized
+post-quantum cryptography (PQC) directly on constrained leaf nodes, however, imposes a
+severe energy and radio-bandwidth penalty because large lattice-based keys are split
+across many IEEE~802.15.4/6LoWPAN frames. This paper addresses that sustainability
+tension with a gateway-centric hybrid architecture that keeps asymmetric post-quantum
+operations off the leaf nodes while preserving long-term post-quantum resilience. The
+work fits the Journal's scope at the intersection of IoT security, edge/energy
+sustainability, and next-generation network protocols.
+
+\section*{Key Points and Contributions}
+\begin{enumerate}
+  \item \textbf{Sustainable hybrid QKD--PQC architecture.} An edge-centric Quantum-Safe
+  Home Security Gateway (QHSG) structurally isolates security-intensive key-management
+  operations from high-volume application data streams; last-mile Quantum Key
+  Distribution (QKD) material is ingested where optical infrastructure exists, while
+  standardized ML-KEM-768 (FIPS~203) provides a deployable path over conventional
+  networks. Bulk data is protected by authenticated symmetric encryption.
+
+  \item \textbf{Grounded security--sustainability model.} Endpoint compute energy, radio
+  transmission overhead, and 6LoWPAN fragmentation penalties are formalized as explicit
+  design parameters. Constants are anchored to the IEEE~802.15.4 physical layer and the
+  TI~CC2652R datasheet ($P_{\mathrm{TX}}{=}22$~mW, $P_{\mathrm{RX}}{=}21$~mW at
+  250~kbps), with compute times from measured ARM Cortex-M4 cycle counts.
+
+  \item \textbf{Quantified energy outcome.} Direct leaf-node PQC deployment raises
+  endpoint key-negotiation energy by \textbf{$+108.4\%$} over classical handshakes
+  (328.46~mJ vs.\ 157.63~mJ at $N{=}100$) because the 2272-byte ML-KEM-768 handshake
+  fragments into 24 link-layer frames. The proposed gateway-mediated hybrid reduces
+  endpoint key-management energy by \textbf{$-96.8\%$} relative to standalone PQC and
+  \textbf{$-93.3\%$} relative to classical ECDH.
+
+  \item \textbf{Protocol-level validation.} The fragmentation model is validated in
+  \emph{executed} headless Contiki-NG/COOJA runs across seven payload sizes
+  (64--2272~B); the measured frame counts (1, 2, 3, 6, 11, 13, 24) match the closed form
+  $\lceil(\text{payload}+12)/96\rceil$ exactly.
+
+  \item \textbf{Formal security verification.} A suite of ProVerif~2.05 models
+  machine-checks key-lifecycle secrecy and authentication, single-use refresh semantics,
+  endpoint isolation under device compromise, gateway-compromise forward secrecy,
+  harvest-now-decrypt-later resistance, cross-session/device key independence, ticket
+  replay under packet loss, and active local-link impersonation.
+
+  \item \textbf{Reproducibility.} Every quantitative and symbolic result is regenerable
+  from a public, tagged artifact containing one run script per evidence stream,
+  including the Contiki-NG patch required to transmit the 2272-byte handshake.
+\end{enumerate}
+
+\section*{Data and Reproducibility}
+All simulation code, grounded parameter sets, figure-generation routines,
+sensitivity-analysis scripts, ProVerif models, cycle-calibration scripts, and
+Contiki-NG/COOJA scenarios are openly archived at:
+\begin{center}
+\url{https://github.com/prakashsurywanshi/quantum-safe-residential-iot}\\
+(branch \texttt{ieee-submission}, tag \texttt{ieee-v1.0})
+\end{center}
+so that reviewers can independently reproduce each claim.
+
+We believe this work offers a rigorous, hardware-grounded, and formally verified
+framework for sustainable quantum-resilient IoT security, and we hope it is found
+suitable for publication in the \emph{IEEE Internet of Things Journal}. We would be
+glad to provide any additional information or artifacts requested.
+
+\vspace{0.5em}
+Yours sincerely,
+
+\vspace{1.2em}
+Prakash Suryawanshi\\
+Qodeigence Infocircle Private Limited\\
+\texttt{prakashsurywanshi1@live.com}
+
+\end{document}
