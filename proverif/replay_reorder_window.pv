@@ -1,0 +1,71 @@
+(* ============================================================
+   replay_reorder_window.pv
+   Sequence-number window under reordering: a delayed OLD ticket
+   delivered after a newer one is rejected.
+
+   This model makes the loss/reorder dynamics explicit.  The
+   gateway issues tickets tagged with the requested sequence number
+   s in {seqOne, seqTwo}:
+
+       ticket = mk_ticket(endpKey, s, ctx)
+
+   The endpoint enforces a STRICT MONOTONE window: it will only
+   advance seqOne -> seqTwo and admits a ticket for the next
+   expected sequence only.  A retransmitted/delayed/reordered
+   ticket for seqOne arriving in the seqTwo slot is rejected
+   (delivered only after the receiver has moved on).
+
+   Invariant to prove (single-use, no re-entry):
+
+       inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x))
+
+   Result: HOLDS on this bounded window.  Contrast with
+   replay_packetloss_stateless.pv, where the same replayed ticket
+   is admitted twice and the invariant FAILS.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- device ticket key (pre-shared, private) --- *)
+free endpKey : bitstring [private].
+
+(* --- sequence-number domain (Eq. 3 SeqNum) --- *)
+const seqOne : bitstring.
+const seqTwo : bitstring.
+
+(* --- ticket carries (s, ctx) --- *)
+fun mk_ticket(bitstring, bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, s : bitstring, ctx : bitstring;
+  open_ticket(devk, mk_ticket(devk, s, ctx)) = (s, ctx).
+
+event ticketIssued(bitstring).
+event ticketConsumed(bitstring).
+
+(* --- gateway: issue a ticket for the requested sequence number --- *)
+let gatewaySession =
+  in(c, s : bitstring);
+  new ctx : bitstring;
+  event ticketIssued(ctx);
+  out(c, mk_ticket(endpKey, s, ctx)).
+
+(* --- endpoint: strict monotone window seqOne -> seqTwo --- *)
+let endpointWindow =
+  in(c, t1 : bitstring);
+  let (s1 : bitstring, x1 : bitstring) = open_ticket(endpKey, t1) in
+  if s1 = seqOne then
+    ( event ticketConsumed(x1);
+      in(c, t2 : bitstring);
+      let (s2 : bitstring, x2 : bitstring) = open_ticket(endpKey, t2) in
+      if s2 = seqTwo then
+        event ticketConsumed(x2)          (* advance the window *)
+      else
+        0 )                               (* stale seqOne in seqTwo slot: reject *)
+  else
+    0.
+
+(* ---------- queries (declared before the main process) ---------- *)
+query x : bitstring; inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x)).
+query attacker(endpKey).
+
+process
+  !gatewaySession | endpointWindow

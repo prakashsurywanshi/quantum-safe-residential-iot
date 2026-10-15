@@ -1,0 +1,62 @@
+(* ============================================================
+   impersonation_noauth.pv
+   Active impersonation injection on the local link ---
+   UNAUTHENTICATED endpoint (why authentication is necessary).
+
+   This model isolates the authentication mechanism of
+   impersonation_auth.pv.  Here the endpoint trusts any packet that
+   parses as a session ticket; the extractor needs NO shared secret
+   (a public, attacker-mintable format).
+
+   The adversary forges a ticket for its own context forgedCtx:
+
+       out(c, mk_ticket(forgedCtx))
+
+   Property under test (session-origin authentication):
+
+       event(endSession(x)) ==> event(beginSession(x))
+
+   Result: FAILS.  The forged ticket is accepted, so an
+   endSession(forgedCtx) fires with no corresponding
+   beginSession(forgedCtx) --- a successful active impersonation of
+   the gateway on the local link.  This is the attack that the
+   endpKey ticket authentication of impersonation_auth.pv closes.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- ticket key exists in the design but the naive endpoint ignores it --- *)
+free endpKey : bitstring [private].
+const forgedCtx : bitstring.
+
+(* --- public, unauthenticated ticket format: adversary can mint it --- *)
+fun mk_ticket(bitstring) : bitstring.
+reduc forall ctx : bitstring;
+  open_ticket(mk_ticket(ctx)) = ctx.
+
+event beginSession(bitstring).
+event endSession(bitstring).
+
+(* --- genuine gateway --- *)
+let gatewaySession =
+  new ctx : bitstring;
+  event beginSession(ctx);
+  out(c, mk_ticket(ctx)).
+
+(* --- naive endpoint: accepts any parseable ticket, no key check --- *)
+let endpointSession =
+  in(c, t : bitstring);
+  let x : bitstring = open_ticket(t) in
+  event endSession(x).
+
+(* ---------- queries (declared before the main process) ---------- *)
+query x : bitstring; event(endSession(x)) ==> event(beginSession(x)).
+query attacker(endpKey).
+
+process
+  !gatewaySession
+  |
+  !endpointSession
+  |
+  (* adversary impersonates the gateway *)
+  out(c, mk_ticket(forgedCtx))

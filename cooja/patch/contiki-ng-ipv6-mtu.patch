@@ -1,0 +1,14 @@
+diff --git a/os/net/ipv6/uipopt.h b/os/net/ipv6/uipopt.h
+index 0f351ab..e352d01 100644
+--- a/os/net/ipv6/uipopt.h
++++ b/os/net/ipv6/uipopt.h
+@@ -142,7 +142,9 @@
+  */
+ 
+ /** The maximum transmission unit at the IP layer. */
++#ifndef UIP_LINK_MTU
+ #define UIP_LINK_MTU 1280
++#endif
+ 
+ #ifndef UIP_CONF_IPV6_QUEUE_PKT
+ /** Do we do per-neighbor queuing during address resolution (default: no) */

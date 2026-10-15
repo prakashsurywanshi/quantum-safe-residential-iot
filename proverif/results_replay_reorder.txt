@@ -1,0 +1,52 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}in(c, s: bitstring);
+    {3}new ctx: bitstring;
+    {4}event ticketIssued(ctx);
+    {5}out(c, mk_ticket(endpKey,s,ctx))
+) | (
+    {6}in(c, t1: bitstring);
+    {7}let (s1: bitstring,x1: bitstring) = open_ticket(endpKey,t1) in
+    {8}if (s1 = seqOne) then
+    {9}event ticketConsumed(x1);
+    {10}in(c, t2: bitstring);
+    {11}let (s2: bitstring,x2: bitstring) = open_ticket(endpKey,t2) in
+    {12}if (s2 = seqTwo) then
+    {13}event ticketConsumed(x2)
+)
+
+-- Query inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x)) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x))
+goal reachable: b-inj-event(ticketIssued(ctx_1),@occ4_1) -> inj-event(ticketConsumed(ctx_1),@occ9_1)
+The hypothesis occurs strictly before the conclusion.
+Abbreviations:
+ctx_1 = ctx[s = seqOne,!1 = @sid]
+@occ9_1 = @occ9[t1 = mk_ticket(endpKey[],seqOne,ctx_1)]
+@occ4_1 = @occ4[s = seqOne,!1 = @sid]
+goal reachable: b-inj-event(ticketIssued(ctx_1),@occ4_1) && b-inj-event(ticketIssued(ctx_2),@occ4_2) -> inj-event(ticketConsumed(ctx_1),@occ13_1)
+The 1st, 2nd hypotheses occur strictly before the conclusion.
+Abbreviations:
+ctx_1 = ctx[s = seqTwo,!1 = @sid]
+ctx_2 = ctx[s = seqOne,!1 = @sid_1]
+@occ13_1 = @occ13[t2 = mk_ticket(endpKey[],seqTwo,ctx_1),t1 = mk_ticket(endpKey[],seqOne,ctx_2)]
+@occ4_1 = @occ4[s = seqTwo,!1 = @sid]
+@occ4_2 = @occ4[s = seqOne,!1 = @sid_1]
+RESULT inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x)) is true.
+-- Query not attacker(endpKey[]) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(endpKey[])
+RESULT not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x)) is true.
+
+Query not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+

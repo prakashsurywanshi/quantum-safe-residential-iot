@@ -1,0 +1,137 @@
+run_start len=64
+2|[INFO: Main      ] Starting Contiki-NG-7a4df8a-dirty
+2|[INFO: Main      ] - Routing: RPL Lite
+2|[INFO: Main      ] - Net: sicslowpan
+2|[INFO: Main      ] - MAC: CSMA
+2|[INFO: Main      ] - 802.15.4 PANID: 0xabcd
+2|[INFO: Main      ] - 802.15.4 Default channel: 26
+2|[INFO: Main      ] Node ID: 2
+2|[INFO: Main      ] Link-layer address: 0002.0002.0002.0002
+2|[INFO: Main      ] Tentative link-local IPv6 address: fe80::202:2:2:2
+2|[INFO: Probe     ] QHSG cfg payload=64 uip_bufsize=3000
+1|[INFO: Main      ] Starting Contiki-NG-7a4df8a-dirty
+1|[INFO: Main      ] - Routing: RPL Lite
+1|[INFO: Main      ] - Net: sicslowpan
+1|[INFO: Main      ] - MAC: CSMA
+1|[INFO: Main      ] - 802.15.4 PANID: 0xabcd
+1|[INFO: Main      ] - 802.15.4 Default channel: 26
+1|[INFO: Main      ] Node ID: 1
+1|[INFO: Main      ] Link-layer address: 0001.0001.0001.0001
+1|[INFO: Main      ] Tentative link-local IPv6 address: fe80::201:1:1:1
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG waiting for root
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 98
+2|[INFO: 6LoWPAN   ] output: header len 48 -> 12, total len 98 -> 62, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 62 (83)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 62 (83)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 98
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 56
+1|[INFO: 6LoWPAN   ] output: header len 48 -> 12, total len 56 -> 20, MAC max payload 104, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 0002.0002.0002.0002 21 20 (41)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0002.0002.0002.0002 21 20 (41)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 56
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=0 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 120
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 120 -> 82, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 82 (103)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 82 (103)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 120
+1|[INFO: App       ] Received 64 bytes from fd00::202:2:2:2
+2|[INFO: Probe     ] QHSG_TX_END seq=0 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=1 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 120
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 120 -> 82, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 82 (103)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 82 (103)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 120
+1|[INFO: App       ] Received 64 bytes from fd00::202:2:2:2
+2|[INFO: Probe     ] QHSG_TX_END seq=1 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=2 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 120
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 120 -> 82, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 82 (103)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 82 (103)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 120
+1|[INFO: App       ] Received 64 bytes from fd00::202:2:2:2
+2|[INFO: Probe     ] QHSG_TX_END seq=2 len=64
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=3 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 120
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 120 -> 82, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 82 (103)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 82 (103)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 120
+1|[INFO: App       ] Received 64 bytes from fd00::202:2:2:2
+2|[INFO: Probe     ] QHSG_TX_END seq=3 len=64
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=4 len=64
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 120
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 120 -> 82, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 82 (103)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 82 (103)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 120
+1|[INFO: App       ] Received 64 bytes from fd00::202:2:2:2
+2|[INFO: Probe     ] QHSG_TX_END seq=4 len=64
+2|[INFO: Probe     ] QHSG done

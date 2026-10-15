@@ -1,0 +1,80 @@
+(* ============================================================
+   impersonation_auth.pv
+   Resistance to active impersonation injection on the local link
+   --- AUTHENTICATED endpoint.
+
+   The attacker is an active Dolev-Yao adversary on the shared
+   wireless link c: it may inject arbitrary packets pretending to
+   be the gateway (forged tickets) or the endpoint (forged data).
+   The endpoint authenticates every admitted session by opening the
+   ticket with the pre-shared, private ticket key endpKey
+   (Eq. 3/4 binding).
+
+   Property to prove (session-origin authentication):
+
+       event(endSession(x)) ==> event(beginSession(x))
+
+   i.e. no endpoint ever accepts a session that was not started by
+   the legitimate gateway.  The model explicitly emits forged
+   tickets mk_ticket(attackerKey, ...) and forged data
+   aead_enc(attackerKey, ...), where attackerKey is a public value
+   the adversary knows but unlike endpKey cannot open the endpoint.
+
+   Result: HOLDS --- the impersonation injection is rejected
+   (open_ticket(endpKey, forged) does not reduce), and the
+   data plane stays confidential.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- device ticket key: pre-shared and private to gateway+endpoint --- *)
+free endpKey : bitstring [private].
+(* --- a key the adversary holds; cannot forge tickets under endpKey --- *)
+free attackerKey : bitstring.
+
+(* --- data-plane payload (Eq. 4) --- *)
+free secretPayload : bitstring [private].
+const forgedCtx : bitstring.
+
+(* --- ticket: context wrapped with the shared ticket key --- *)
+fun mk_ticket(bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, ctx : bitstring;
+  open_ticket(devk, mk_ticket(devk, ctx)) = ctx.
+
+(* --- AEAD (AES-256-GCM), Eq. 4 --- *)
+fun aead_enc(bitstring, bitstring, bitstring) : bitstring.
+reduc forall k : bitstring, n : bitstring, m : bitstring;
+  aead_dec(k, n, aead_enc(k, n, m)) = m.
+
+event beginSession(bitstring).
+event endSession(bitstring).
+
+(* --- genuine gateway --- *)
+let gatewaySession =
+  new ctx : bitstring;
+  new ks  : bitstring;
+  event beginSession(ctx);
+  out(c, mk_ticket(endpKey, ctx));          (* authenticated ticket *)
+  new n : bitstring;
+  out(c, aead_enc(ks, n, secretPayload)).   (* protected data plane *)
+
+(* --- endpoint: admits a session only if the ticket verifies under endpKey --- *)
+let endpointSession =
+  in(c, t : bitstring);
+  let x : bitstring = open_ticket(endpKey, t) in
+  event endSession(x).
+
+(* ---------- queries (declared before the main process) ---------- *)
+query x : bitstring; event(endSession(x)) ==> event(beginSession(x)).
+query attacker(secretPayload).
+query attacker(endpKey).
+
+process
+  !gatewaySession
+  |
+  !endpointSession
+  |
+  (* active injection attempts by the adversary *)
+  out(c, mk_ticket(attackerKey, forgedCtx));
+  new m : bitstring;
+  out(c, aead_enc(attackerKey, m, forgedCtx))

@@ -1,0 +1,80 @@
+Process 0 (that is, the initial process):
+{1}let prk: bitstring = hkdf_extract(kmS,kq) in
+{2}let kA1: bitstring = hkdf_expand(prk,ctxA1) in
+{3}let kA2: bitstring = hkdf_expand(prk,ctxA2) in
+{4}let kB1: bitstring = hkdf_expand(prk,ctxB1) in
+{5}event keyDisclosed(ctxA1);
+{6}out(c, kA1);
+{7}new nA2: bitstring;
+{8}out(c, aead_enc(kA2,nA2,dataA2));
+{9}new nB1: bitstring;
+{10}out(c, aead_enc(kB1,nB1,dataB1));
+{11}new pA2: bitstring;
+{12}out(c, aead_enc(kA2,pA2,probeA2));
+{13}new pB1: bitstring;
+{14}out(c, aead_enc(kB1,pB1,probeB1))
+
+--  Process 1 (that is, process 0, with let moved downwards):
+{5}event keyDisclosed(ctxA1);
+{1}let prk: bitstring = hkdf_extract(kmS,kq) in
+{2}let kA1: bitstring = hkdf_expand(prk,ctxA1) in
+{6}out(c, kA1);
+{7}new nA2: bitstring;
+{3}let kA2: bitstring = hkdf_expand(prk,ctxA2) in
+{8}out(c, aead_enc(kA2,nA2,dataA2));
+{9}new nB1: bitstring;
+{4}let kB1: bitstring = hkdf_expand(prk,ctxB1) in
+{10}out(c, aead_enc(kB1,nB1,dataB1));
+{11}new pA2: bitstring;
+{12}out(c, aead_enc(kA2,pA2,probeA2));
+{13}new pB1: bitstring;
+{14}out(c, aead_enc(kB1,pB1,probeB1))
+
+-- Query not attacker(dataA2[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(dataA2[])
+RESULT not attacker(dataA2[]) is true.
+-- Query not attacker(dataB1[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(dataB1[])
+RESULT not attacker(dataB1[]) is true.
+-- Query not attacker(probeA2[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(probeA2[])
+RESULT not attacker(probeA2[]) is true.
+-- Query not attacker(probeB1[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(probeB1[])
+RESULT not attacker(probeB1[]) is true.
+-- Query not attacker(kmS[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(kmS[])
+RESULT not attacker(kmS[]) is true.
+-- Query not attacker(kq[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(kq[])
+RESULT not attacker(kq[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query not attacker(dataA2[]) is true.
+
+Query not attacker(dataB1[]) is true.
+
+Query not attacker(probeA2[]) is true.
+
+Query not attacker(probeB1[]) is true.
+
+Query not attacker(kmS[]) is true.
+
+Query not attacker(kq[]) is true.
+
+--------------------------------------------------------------
+

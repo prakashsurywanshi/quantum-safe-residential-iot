@@ -1,0 +1,66 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}new ctx: bitstring;
+    {3}event beginSession(ctx);
+    {4}out(c, mk_ticket(ctx))
+) | (
+    {5}!
+    {6}in(c, t: bitstring);
+    {7}let x: bitstring = open_ticket(t) in
+    {8}event endSession(x)
+) | (
+    {9}out(c, mk_ticket(forgedCtx))
+)
+
+-- Query event(endSession(x_1)) ==> event(beginSession(x_1)) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query event(endSession(x_1)) ==> event(beginSession(x_1))
+goal reachable: attacker(x_1) -> event(endSession(x_1))
+
+Derivation:
+
+1. We assume as hypothesis that
+attacker(x_1).
+
+2. By 1, the attacker may know x_1.
+Using the function mk_ticket the attacker may obtain mk_ticket(x_1).
+attacker(mk_ticket(x_1)).
+
+3. The message mk_ticket(x_1) that the attacker may have by 2 may be received at input {6}.
+So event endSession(x_1) may be executed at {8}.
+event(endSession(x_1)).
+
+4. By 3, event(endSession(x_1)).
+The goal is reached, represented in the following fact:
+event(endSession(x_1)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, ~M) with ~M = mk_ticket(forgedCtx) at {9}
+
+in(c, mk_ticket(a)) at {6} in copy a_1
+
+event endSession(a) at {8} in copy a_1 (goal)
+
+The event endSession(a) is executed at {8} in copy a_1.
+A trace has been found.
+RESULT event(endSession(x_1)) ==> event(beginSession(x_1)) is false.
+-- Query not attacker(endpKey[]) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(endpKey[])
+RESULT not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query event(endSession(x_1)) ==> event(beginSession(x_1)) is false.
+
+Query not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+

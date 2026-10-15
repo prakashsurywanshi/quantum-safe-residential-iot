@@ -1,0 +1,53 @@
+(* ============================================================
+   replay_packetloss_stateless.pv
+   Ticket replay under packet loss / delay / reordering ---
+   WITHOUT the sequence-number binding (stateless endpoint).
+
+   Same lossy/reordering Dolev-Yao link as
+   replay_packetloss_bound.pv, but here the endpoint keeps NO
+   per-connection SeqNum state and admits ANY ticket that opens
+   under the shared ticket key (relying on the network's implicit
+   timeliness).
+
+   Invariant to prove (single-use, no re-entry):
+
+       inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x))
+
+   Result: FAILS.  ProVerif exhibits a concrete replay: a ticket
+   captured on the wire (or delayed/reordered by the lossy link) is
+   delivered twice, so one issued session context is consumed twice,
+   i.e. the endpoint re-enters a stale session.  This is exactly the
+   re-entry that the Eq. 3 sequence-number binding removes.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- device ticket key (pre-shared, private) --- *)
+free endpKey : bitstring [private].
+
+(* --- ticket wraps a session context --- *)
+fun mk_ticket(bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, ctx : bitstring;
+  open_ticket(devk, mk_ticket(devk, ctx)) = ctx.
+
+event ticketIssued(bitstring).
+event ticketConsumed(bitstring).
+
+(* --- gateway: issue one fresh context-bearing ticket per session --- *)
+let gatewaySession =
+  new ctx : bitstring;
+  event ticketIssued(ctx);
+  out(c, mk_ticket(endpKey, ctx)).
+
+(* --- endpoint WITHOUT SeqNum freshness state: consumes any valid ticket --- *)
+let endpointStateless =
+  in(c, t : bitstring);
+  let x : bitstring = open_ticket(endpKey, t) in
+  event ticketConsumed(x).
+
+(* ---------- queries (declared before the main process) ---------- *)
+query x : bitstring; inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x)).
+query attacker(endpKey).
+
+process
+  !gatewaySession | !endpointStateless

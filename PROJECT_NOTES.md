@@ -65,13 +65,15 @@ E_end,i  = P_CPU · T_comp,i + P_TX · T_tx,i + P_RX · T_rx,i  (6)
 E_comm   = Σ_m (N_frag,m · E_frame + E_oh)                  (7)
 ```
 
-6LoWPAN fragmentation on IEEE 802.15.4 (physical MTU 127 bytes), with payload `Sm` bytes:
+6LoWPAN fragmentation on IEEE 802.15.4, with payload `Sm` bytes (COOJA-validated; see `cooja/`):
 
 ```
-N_frag,m = 1 + ceil( max(0, Sm − S_first) / S_sub )          (8)
+N_frag,m = ceil( (Sm + C_hdr) / S_sub )                      (8)
 ```
 
-where `S_first ≈ 105` bytes and `S_sub ≈ 111` bytes reflect mesh-header overheads.
+where the compressed IPv6/UDP header is `C_hdr = 12` bytes and the usable payload per
+fragment is `S_sub = 96` bytes (`(104 − 5) & ~7`). These are measured values from the
+Contiki-NG 6LoWPAN implementation, confirmed to reproduce the COOJA frame counts exactly.
 
 Normalized energy efficiency per protected data unit:
 
@@ -95,25 +97,27 @@ Tr = min( V_max / R_data ,  T_base · (E_rem / E_initial) / (α·Rd + β·Sc) ) 
 
 | Configuration | T_comp | Payload | 6LoWPAN fragments | Security basis |
 |---------------|--------|---------|-------------------|----------------|
-| Classical (ECDH) | 15.0 ms | 128 B | 2 | Computational (DLP) |
-| PQC (ML-KEM-768) | 3.5 ms | 2272 B | 21 | Computational (lattice) |
-| QKD-Assisted | 0.8 ms | 64 B | 1 | Physical (quantum) |
-| Hybrid QHSG (proposed) | 0.9 ms | 64 B | 1 | Hybrid (PQC + QKD) |
+| Classical (ECDH) | 10.81 ms | 128 B | 2 | Computational (DLP) |
+| PQC (ML-KEM-768) | 8.04 ms | 2272 B | 24 | Computational (lattice) |
+| QKD-Assisted | 0.22 ms | 64 B | 1 | Physical (quantum) |
+| Hybrid QHSG (proposed) | 0.22 ms | 64 B | 1 | Hybrid (PQC + QKD) |
 
-Calibration: ARM Cortex-M4 @ 168 MHz, `P_CPU = 132 mW` (3.3 V × 40 mA), IEEE 802.15.4 transceiver `P_TX = 250 mW`, `P_RX = 180 mW`.
+Calibration: ARM Cortex-M4F @ 168 MHz, `P_CPU = 132 mW` (3.3 V × 40 mA); IEEE 802.15.4 transceiver `P_TX = 22 mW` (7.3 mA @ 3.0 V), `P_RX = 21 mW` (6.9 mA @ 3.0 V) [TI CC2652R datasheet]; PHY rate 250 kbps. Compute times are measured cycle counts (`benchmarks/`).
 
 ### Table 2 — Cumulative endpoint key-refresh energy across fleet scales (manuscript)
 
 | Scale (N) | Classical (mJ) | PQC-Only (mJ) | QKD-Assisted (mJ) | Hybrid QHSG (mJ) |
 |-----------|----------------|---------------|-------------------|------------------|
-| 10 | 22.36 | 50.06 | 1.39 | 1.40 |
-| 25 | 55.90 | 125.15 | 3.46 | 3.50 |
-| 50 | 111.80 | 250.30 | 6.93 | 6.99 |
-| 100 | 223.60 | 500.60 | 13.86 | 13.99 |
-| 250 | 559.00 | 1251.50 | 34.64 | 34.98 |
-| 500 | 1118.00 | 2503.00 | 69.28 | 69.95 |
+| 10 | 15.76 | 32.85 | 1.05 | 1.05 |
+| 25 | 39.41 | 82.11 | 2.63 | 2.63 |
+| 50 | 78.82 | 164.23 | 5.26 | 5.26 |
+| 100 | 157.63 | 328.46 | 10.52 | 10.52 |
+| 250 | 394.08 | 821.14 | 26.31 | 26.31 |
+| 500 | 788.15 | 1642.28 | 52.62 | 52.62 |
 
-Headline comparisons: direct ML-KEM-768 on leaf endpoints = **+123.9%** energy vs. classical ECDH; proposed QHSG = **−97.2%** vs. direct PQC and **−93.7%** vs. classical ECDH. At large workloads the handshake amortizes and QHSG remains strongly gateway-mediated.
+Endpoint units: Classical 1.5763 mJ, PQC-Only 3.2846 mJ, QKD-Assisted/Hybrid 0.105248 mJ per device.
+
+Headline comparisons: direct ML-KEM-768 on leaf endpoints = **+108.4%** energy vs. classical ECDH; proposed QHSG = **−96.8%** vs. direct PQC and **−93.3%** vs. classical ECDH. The QKD-Assisted and Hybrid rows are identical because both leave the endpoint with only symmetric AEAD. A 20,000-sample Monte-Carlo sensitivity analysis confirms the conclusions hold across the plausible parameter range.
 
 ---
 
@@ -125,22 +129,32 @@ Headline comparisons: direct ML-KEM-768 on leaf endpoints = **+123.9%** energy v
 
 | Lines | Function / block | Role |
 |-------|------------------|------|
-| 7–30 | CLI args + `calc_fragments()` | Flag definitions; 6LoWPAN fragment count (`105`/`111` byte thresholds) |
-| 31–44 | `run_simulation()` setup | Output dirs; `params` (Table 1) and `gateway_mediated` scheme set |
-| 46–55 | `calc_energy_endpoint()` | Compute (+ gateway factor) + TX (+ optional per-fragment overhead) energy |
-| 57–70 | `results` / DataFrame | Fleet aggregation, 2-decimal rounding, `data/Table_Energy_Results.csv` |
-| 74–88 | Figure 1 block | Scalability plot |
-| 90–... | Figure 2 block | Workload-normalized efficiency, at the `N = 100` index |
+| 1–25 | module docstring | Documents grounded constants and COOJA-validated fragmentation |
+| 37–41 | platform constants | `P_CPU`, `P_TX`, `P_RX`, `BITRATE`, `ACK_BYTES` |
+| 44–49 | fragmentation constants | `MAC_MAX_PAYLOAD`, `COMP_HDR`, `FRAGN_DATA`, … |
+| 52–57 | `PARAMS` | measured `t_comp` and payload per scheme (Table 1) |
+| 60–64 | `calc_fragments()` | `ceil((payload+12)/96)`, COOJA-validated |
+| 67–74 | `on_air_bytes()` | total 802.15.4 bytes incl. per-frame MAC header |
+| 77–83 | `endpoint_energy_mj()` | `P_CPU·t_comp + P_TX·t_data + P_RX·t_ack`, returns (mJ, n_frag) |
+| 94–128 | `run()` | fleet aggregation → `data/Table_Energy_Results.csv`, `data/summary.json` |
+| 130–144 | scalability figure | `figures/Fig_Energy_Scalability.*` |
+| 146–167 | workload-efficiency figure | `figures/Fig_Energy_Per_MB.*` |
+
+### `sensitivity_analysis.py`
+
+20,000-sample Monte-Carlo over log-normal radio powers (20%/35% CV) and a common
+15% perturbation on measured compute times, reusing `sim.calc_fragments()` and
+`sim.on_air_bytes()`; writes `data/sensitivity_results.csv`,
+`data/sensitivity_summary.json`, `figures/Fig_Sensitivity.png`.
+
+### `cooja/`
+
+Headless Contiki-NG/COOJA fragmentation validation; see `cooja/README.md`.
 
 ### Notebooks
 
-| Notebook | Notes |
-|----------|-------|
-| `Quantum_Safe_IoT_Simulation.ipynb` | 2 cells; Colab badge target; writes figures to the working directory |
-| `A_Sustainable_Hybrid_QKD–PQC_..._IoT_.ipynb` | Serif publication styling; writes to `paper_outputs/`; auto-downloads in Colab |
-| `Copy of A Sustainable Hybrid ... .ipynb` | As above, plus two matplotlib architecture-diagram cells |
-
-All three share an identical first code cell (the core energy model, `BITRATE = 1e6`, no fragmentation-overhead term, gateway ×0.1 compute factor).
+The Colab notebooks are exploratory and are **not** part of the canonical artifact;
+do not use them to reproduce Table 2.
 
 ---
 
@@ -151,63 +165,53 @@ All three share an identical first code cell (the core energy model, `BITRATE = 
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# Baseline
-python simulation_benchmarks.py
+# Canonical model
+python simulation_benchmarks.py --scales 10 25 50 100 250 500
 
-# Custom parameters (README example)
-python simulation_benchmarks.py \
-  --bitrate 250000 --p_cpu 0.150 --p_tx 0.280 \
-  --scales 10 50 100 200 500 1000 --outdir custom_results/
+# Sensitivity analysis
+python sensitivity_analysis.py
+
+# Cycle calibration
+python benchmarks/cycle_calibration.py
+
+# ProVerif (formal verification)
+bash proverif/run_all.sh /path/to/proverif
+
+# COOJA fragmentation validation (requires Contiki-NG + Docker)
+CONTIKI=/path/to/contiki-ng GRADLE_HOME=/path/to/.gradle \
+  bash cooja/scripts/run_fragmentation.sh
 ```
 
 Environment used for the committed results: Python 3.12, numpy 2.5.3, pandas 3.0.6, matplotlib 3.11.2.
 
 ---
 
-## 8. Known discrepancies and caveats
+## 8. Known caveats
 
-The script now reproduces the manuscript's Table 2 exactly for the Classical, PQC-Only, and QKD-Assisted rows, and for the corrected Hybrid row (see column 10 below). Remaining items:
+The canonical script reproduces the manuscript's Table 2 and `data/summary.json`
+exactly. Caveats:
 
-| # | Item | Script (`simulation_benchmarks.py`) | Notebook | Manuscript / status |
-|---|------|-------------------------------------|----------|---------------------|
-| 1 | Default bitrate | `1e6` bps (was `250000`) | `1e6` bps | **Resolved** — 1 Mbps adopted as canonical; manuscript §14 text corrected from "250 kbps" |
-| 2 | Per-fragment overhead | Opt-in via `--frag-overhead` (default off; previously always on) | Not modeled | **Resolved** — excluded from the canonical model, matching Table 2 |
-| 3 | Gateway compute factor | `--gateway-factor 0.1` for QKD/Hybrid (`:48-49`); previously none | ×0.1 for gateway-mediated | **Resolved** — script and notebook now agree |
-| 4 | Hybrid payload | 64 B (`:41`) | 2272 + 64 = 2336 B | Script follows Table 1 (64 B); notebook is exploratory and not canonical |
-| 5 | Hybrid `t_comp` | 0.9 ms | 4.2 ms | Script follows Table 1 (0.9 ms) |
-| 6 | Legacy row values | Old default run (250 kbps + overhead) reported Classical 325.40 mJ, PQC 2126.30 mJ @ N=100 | — | Superseded; recreated with `--bitrate 250000 --frag-overhead` only for historical comparison |
-| 7 | Hybrid Table-2 value | **13.99 mJ @ N=100** (reproducible) | — | Original draft printed 26.90 mJ, which **cannot be reconstructed** from any clean decomposition of Table 1 parameters; corrected to the reproducible value in the revision |
-
-**Reconciliation note (item 7):** the per-device curve that reproduces Table 2 for Classical (2.236 mJ), PQC-Only (5.006 mJ), and QKD-Assisted (0.13856 mJ) is
-
-```
-E_device(scheme) = ( t_comp · P_CPU · factor + (bytes · 8 / 1e6) · P_TX ) × 1000   [mJ/device]
-factor = 0.1 for QKD-Assisted and Hybrid QHSG, else 1.0
-```
-
-with Table 1 parameters (Classical 15 ms/128 B, PQC 3.5 ms/2272 B, QKD 0.8 ms/64 B, Hybrid 0.9 ms/64 B). This yields Hybrid = 0.13988 mJ/device → **13.99 mJ @ N=100**. Headline percentages under the reconciled model: PQC-Only vs. Classical **+123.9%** (unchanged); Hybrid QHSG vs. PQC-Only **−97.2%** and vs. Classical **−93.7%** (slightly stronger than the draft's 94.6%/88.0%, which were anchored to the unreproducible 26.90 mJ value). The revision must carry these corrected figures.
-
-**Other caveats:**
-
-- `--p_rx` is parsed but never used in the endpoint energy computation.
-- The committed `figures/` reflect the current (canonical) baseline run; because figures are written to `<outdir>/../figures`, any later run sharing the parent overwrites them (the CSV in each `--outdir` is preserved).
-- `venv` cannot be created inside a directory path containing `:`; create the environment elsewhere.
+| # | Item | Status |
+|---|------|--------|
+| 1 | Energest under COOJA | **Not used** — counters were implausible and did not scale with payload; the validated quantity is the frame/fragment count, combined with datasheet radio constants in the model |
+| 2 | Gateway-side energy (`E_gw`, `E_qkd`) | Modelled analytically only; the endpoint model does not simulate the broadband/QKD side |
+| 3 | Packet loss / retransmissions | Not simulated; `cooja/` uses an ideal link (success ratios 1.0) |
+| 4 | Notebooks | Exploratory Colab notebooks; not part of the canonical artifact |
 
 ---
 
 ## 9. Testing other parameters
 
-Vary the exposed flags directly (`--bitrate`, `--p_cpu`, `--p_tx`, `--p_rx`, `--scales`, `--outdir`, `--gateway-factor`, `--frag-overhead`, `--frag-overhead-cost`). To change the hardcoded benchmarks, edit:
+The canonical model exposes only `--scales`, `--outdir`, `--figdir`. To change the
+model constants, edit:
 
 | Constant | Location |
 |----------|----------|
-| `params` (`t_comp`, `bytes`) | `simulation_benchmarks.py:37-41` |
-| `gateway_mediated` | `simulation_benchmarks.py:44` |
-| `s_first`, `s_sub` | `simulation_benchmarks.py:25-26` |
-| per-fragment overhead | `simulation_benchmarks.py:52-54` (with `--frag-overhead`) |
-| `workloads`, `base_stream_mj` (`×12.0`) | `simulation_benchmarks.py:91-92` |
+| `P_CPU`, `P_TX`, `P_RX`, `BITRATE`, `ACK_BYTES` | `simulation_benchmarks.py:37-41` |
+| `MAC_MAX_PAYLOAD`, `COMP_HDR`, `FRAGN_DATA` | `simulation_benchmarks.py:44-49` |
+| `PARAMS` (`t_comp`, `bytes`) | `simulation_benchmarks.py:52-57` |
 
-The artifact intentionally keeps the exposed CLI surface small so the canonical defaults are the paper-accurate model; parameterizing the remaining constants (e.g., `--scheme-tcomp`, `--scheme-bytes`) is a natural future enhancement that was left out of the reviewed snapshot to avoid changing default results.
+Parameterization of schemes via CLI is a natural future enhancement.
 
 ---
 

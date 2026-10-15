@@ -1,0 +1,44 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}in(c, z: bitstring);
+    {3}new ctx: bitstring;
+    {4}event ticketIssued(ctx);
+    {5}out(c, mk_ticket(endpKey,z,ctx))
+) | (
+    {6}!
+    {7}new z_1: bitstring;
+    {8}out(c, z_1);
+    {9}in(c, t: bitstring);
+    {10}let (w: bitstring,x: bitstring) = open_ticket(endpKey,t) in
+    {11}if (w = z_1) then
+    {12}event ticketConsumed(x)
+)
+
+-- Query inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1)) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1))
+goal reachable: b-inj-event(ticketIssued(ctx_1),@occ4_1) -> inj-event(ticketConsumed(ctx_1),@occ12_1)
+The hypothesis occurs strictly before the conclusion.
+Abbreviations:
+z_2 = z_1[!1 = @sid]
+ctx_1 = ctx[z = z_2,!1 = @sid_1]
+@occ12_1 = @occ12[t = mk_ticket(endpKey[],z_2,ctx_1),!1 = @sid]
+@occ4_1 = @occ4[z = z_2,!1 = @sid_1]
+RESULT inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1)) is true.
+-- Query not attacker(endpKey[]) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(endpKey[])
+RESULT not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1)) is true.
+
+Query not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+

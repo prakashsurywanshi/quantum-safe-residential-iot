@@ -1,0 +1,80 @@
+(* ============================================================
+   gateway_compromise_fs.pv
+   Forward secrecy at the gateway: post-hoc disclosure of the
+   long-term gateway master secret.
+
+   The QHSG stores long-term material in its HSM: the access-loop
+   QKD root Kq and a persistent gateway master secret Kms
+   (Eq. 1).  Every session additionally mixes a ONE-TIME ML-KEM-768
+   agreement Kp (Eq. 1) that is consumed and deleted at rotation
+   time and is never written to non-volatile storage.
+
+       PRK = HKDF-Extract(HKDF-Extract(Kms, Kq), Kp)          (Eq. 1)
+       Ks  = HKDF-Expand(PRK, C, L)                            (Eq. 2)
+
+   Scenario (strictly stronger than harvest-now): after the
+   sessions have completed, the gateway is compromised and the
+   attacker takes BOTH long-term secrets Kms and Kq outright.  It
+   also recorded all ciphertext on the wire.
+
+   Property to prove:
+
+       attacker(secretPayload) is FALSE
+
+   Past data-plane payloads stay confidential because recovering
+   PRK still requires the per-session one-time Kp, which was never
+   stored.  This is the "past sessions" half of gateway compromise;
+   the live-session half (current Kp resident in RAM) remains the
+   acknowledged single-point-of-failure limitation of the design
+   (manuscript Sec. 14, Limitations).
+
+   NOTE ON ADVERSARY STRENGTH: we disclose Kms and Kq in the SAME
+   process, concurrently with the sessions, so ProVerif must prove
+   secrecy for every interleaving.  This dominates the realistic
+   "later disclosure" ordering.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- long-term gateway secrets, disclosed post-hoc --- *)
+free kmS : bitstring [private].        (* HSM-resident gateway master *)
+free kq  : bitstring [private].        (* access-loop QKD root          *)
+
+(* --- past data-plane payload (Eq. 4) --- *)
+free secretPayload : bitstring [private].
+(* --- challenge whose secrecy certifies session-key secrecy --- *)
+free keyChallenge : bitstring [private].
+
+(* --- HKDF-SHA256 (Eqs. 1-2) --- *)
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+
+(* --- AEAD (AES-256-GCM), Eq. 4 --- *)
+fun aead_enc(bitstring, bitstring, bitstring) : bitstring.
+reduc forall k : bitstring, n : bitstring, m : bitstring;
+  aead_dec(k, n, aead_enc(k, n, m)) = m.
+
+event beginSession(bitstring).
+
+(* --- one full session: one-time Kp, then delete it --- *)
+let gatewaySession =
+  new kp : bitstring;                                   (* one-time ML-KEM Kp *)
+  new ctx : bitstring;                                  (* context C (Eq. 3) *)
+  let prk = hkdf_extract(hkdf_extract(kmS, kq), kp) in (* Eq. 1 *)
+  let ks  = hkdf_expand(prk, ctx) in                    (* Eq. 2 *)
+  event beginSession(ctx);
+  new n : bitstring;
+  out(c, aead_enc(ks, n, secretPayload));               (* Eq. 4 data plane *)
+  new n2 : bitstring;
+  out(c, aead_enc(ks, n2, keyChallenge)).               (* probe under Ks *)
+
+(* ---------- queries (declared before the main process) ---------- *)
+query attacker(secretPayload).      (* past payload stays confidential *)
+query attacker(keyChallenge).       (* past session key Ks stays secret  *)
+
+process
+  !gatewaySession
+  |
+  (* post-hoc gateway compromise: both long-term secrets leak *)
+  out(c, kmS);
+  out(c, kq)

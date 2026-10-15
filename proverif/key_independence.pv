@@ -1,0 +1,85 @@
+(* ============================================================
+   key_independence.pv
+   Cross-session and cross-device session-key independence.
+
+   All sessions on the QHSG are derived from the same long-term
+   root PRK = HKDF-Extract(Kms, Kq) (Eq. 1) but are separated by
+   the context string C = DevID || QHSG_ID || SeqNum || Version
+   (Eq. 3) folded into the expand step (Eq. 2):
+
+       Ks(DevID, SeqNum) = HKDF-Expand(PRK, C, L)
+
+   Scenario: the attacker COMPROMISES one session key outright ---
+   it fully learns session key KsA1 (device A, sequence 1).
+   Question: does that reveal (i) another session on the SAME
+   device (A, sequence 2) or (ii) a session on ANOTHER device B?
+
+   Properties to prove (all FALSE = attacker cannot learn them):
+
+       attacker(dataA2)   <- cross-session, same device
+       attacker(dataB1)   <- cross-device
+       attacker(probeA2)  <- secrecy of the second session KEY KsA2
+       attacker(probeB1)  <- secrecy of device-B session KEY KsB1
+
+   The `probe*` values are fresh, never-revealed plaintexts carried
+   under the corresponding session key; by perfect-AEAD soundness,
+   recovering a probe is equivalent to recovering the session key.
+   One-way HKDF expansion on distinct public contexts keeps every
+   session key independent of the disclosed KsA1.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- shared long-term root (private to the gateway, Eq. 1) --- *)
+free kmS : bitstring [private].
+free kq  : bitstring [private].
+
+(* --- public context strings C (Eq. 3): distinct per session/device --- *)
+const ctxA1 : bitstring.
+const ctxA2 : bitstring.
+const ctxB1 : bitstring.
+
+(* --- data-plane payloads of the non-compromised sessions (Eq. 4) --- *)
+free dataA2 : bitstring [private].
+free dataB1 : bitstring [private].
+(* --- key-secrecy probes (fresh plaintexts under the session keys) --- *)
+free probeA2 : bitstring [private].
+free probeB1 : bitstring [private].
+
+(* --- HKDF-SHA256 (Eqs. 1-2) --- *)
+fun hkdf_extract(bitstring, bitstring) : bitstring.
+fun hkdf_expand(bitstring, bitstring) : bitstring.
+
+(* --- AEAD (AES-256-GCM), Eq. 4 --- *)
+fun aead_enc(bitstring, bitstring, bitstring) : bitstring.
+reduc forall k : bitstring, n : bitstring, m : bitstring;
+  aead_dec(k, n, aead_enc(k, n, m)) = m.
+
+event keyDisclosed(bitstring).
+
+(* ---------- queries (declared before the main process) ---------- *)
+query attacker(dataA2).      (* cross-session: A seq 2 data            *)
+query attacker(dataB1).      (* cross-device: device B data            *)
+query attacker(probeA2).     (* cross-session: session key KsA2 secret *)
+query attacker(probeB1).     (* cross-device: session key KsB1 secret  *)
+query attacker(kmS).
+query attacker(kq).
+
+process
+  let prk = hkdf_extract(kmS, kq) in
+  let kA1 = hkdf_expand(prk, ctxA1) in
+  let kA2 = hkdf_expand(prk, ctxA2) in
+  let kB1 = hkdf_expand(prk, ctxB1) in
+  (* compromise of session A1: its key leaves the gateway *)
+  event keyDisclosed(ctxA1);
+  out(c, kA1);
+  (* live traffic of the other sessions *)
+  new nA2 : bitstring;
+  out(c, aead_enc(kA2, nA2, dataA2));
+  new nB1 : bitstring;
+  out(c, aead_enc(kB1, nB1, dataB1));
+  (* key-secrecy probes under the two unconsumed session keys *)
+  new pA2 : bitstring;
+  out(c, aead_enc(kA2, pA2, probeA2));
+  new pB1 : bitstring;
+  out(c, aead_enc(kB1, pB1, probeB1))

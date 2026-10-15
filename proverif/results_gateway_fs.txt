@@ -1,0 +1,54 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}new kp: bitstring;
+    {3}new ctx: bitstring;
+    {4}let prk: bitstring = hkdf_extract(hkdf_extract(kmS,kq),kp) in
+    {5}let ks: bitstring = hkdf_expand(prk,ctx) in
+    {6}event beginSession(ctx);
+    {7}new n: bitstring;
+    {8}out(c, aead_enc(ks,n,secretPayload));
+    {9}new n2: bitstring;
+    {10}out(c, aead_enc(ks,n2,keyChallenge))
+) | (
+    {11}out(c, kmS);
+    {12}out(c, kq)
+)
+
+--  Process 1 (that is, process 0, with let moved downwards):
+(
+    {1}!
+    {2}new kp: bitstring;
+    {3}new ctx: bitstring;
+    {6}event beginSession(ctx);
+    {7}new n: bitstring;
+    {4}let prk: bitstring = hkdf_extract(hkdf_extract(kmS,kq),kp) in
+    {5}let ks: bitstring = hkdf_expand(prk,ctx) in
+    {8}out(c, aead_enc(ks,n,secretPayload));
+    {9}new n2: bitstring;
+    {10}out(c, aead_enc(ks,n2,keyChallenge))
+) | (
+    {11}out(c, kmS);
+    {12}out(c, kq)
+)
+
+-- Query not attacker(secretPayload[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(secretPayload[])
+RESULT not attacker(secretPayload[]) is true.
+-- Query not attacker(keyChallenge[]) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(keyChallenge[])
+RESULT not attacker(keyChallenge[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query not attacker(secretPayload[]) is true.
+
+Query not attacker(keyChallenge[]) is true.
+
+--------------------------------------------------------------
+

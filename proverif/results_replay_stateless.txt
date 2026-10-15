@@ -1,0 +1,95 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}new ctx: bitstring;
+    {3}event ticketIssued(ctx);
+    {4}out(c, mk_ticket(endpKey,ctx))
+) | (
+    {5}!
+    {6}in(c, t: bitstring);
+    {7}let x: bitstring = open_ticket(endpKey,t) in
+    {8}event ticketConsumed(x)
+)
+
+-- Query inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1)) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1))
+goal reachable: @sid ≠ @sid_1 && b-inj-event(ticketIssued(ctx_1),@occ3_1) -> inj-event(ticketConsumed(ctx_1),@occ8_1) && inj-event(ticketConsumed(ctx_1),@occ8_2)
+Abbreviations:
+ctx_1 = ctx[!1 = @sid_2]
+@occ8_1 = @occ8[t = mk_ticket(endpKey[],ctx_1),!1 = @sid]
+@occ8_2 = @occ8[t = mk_ticket(endpKey[],ctx_1),!1 = @sid_1]
+@occ3_1 = @occ3[!1 = @sid_2]
+
+Derivation:
+Abbreviations:
+ctx_1 = ctx[!1 = @sid]
+@occ8_1 = @occ8[t = mk_ticket(endpKey[],ctx_1),!1 = @sid_1]
+@occ8_2 = @occ8[t = mk_ticket(endpKey[],ctx_1),!1 = @sid_2]
+@occ3_1 = @occ3[!1 = @sid]
+
+1. The event ticketIssued(ctx_1) (with occurrence name @occ3_1) may be executed at {3}.
+So the message mk_ticket(endpKey[],ctx_1) may be sent to the attacker at output {4}.
+attacker(mk_ticket(endpKey[],ctx_1)).
+
+2. The message mk_ticket(endpKey[],ctx_1) that the attacker may have by 1 may be received at input {6}.
+So event ticketConsumed(ctx_1) may be executed at {8} in session @sid_2.
+inj-event(ticketConsumed(ctx_1),@occ8_2).
+
+3. By 2, inj-event(ticketConsumed(ctx_1),@occ8_2).
+The goal is reached, represented in the following fact:
+inj-event(ticketConsumed(ctx_1),@occ8_2).
+
+4. The message mk_ticket(endpKey[],ctx_1) that the attacker may have by 1 may be received at input {6}.
+So event ticketConsumed(ctx_1) may be executed at {8} in session @sid_1.
+inj-event(ticketConsumed(ctx_1),@occ8_1).
+
+5. By 4, inj-event(ticketConsumed(ctx_1),@occ8_1).
+The goal is reached, represented in the following fact:
+inj-event(ticketConsumed(ctx_1),@occ8_1).
+
+6. By 5, inj-event(ticketConsumed(ctx_1),@occ8_1).
+By 3, inj-event(ticketConsumed(ctx_1),@occ8_2).
+We have @occ8_1 ≠ @occ8_2.
+The goals for injectivity are reached, combined in the following fact:
+inj-event(ticketConsumed(ctx_1),@occ8_1) && inj-event(ticketConsumed(ctx_1),@occ8_2).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+new ctx: bitstring creating ctx_2 at {2} in copy a
+
+event ticketIssued(ctx_2) at {3} in copy a
+
+out(c, ~M) with ~M = mk_ticket(endpKey,ctx_2) at {4} in copy a
+
+in(c, ~M) with ~M = mk_ticket(endpKey,ctx_2) at {6} in copy a_1
+
+event ticketConsumed(ctx_2) at {8} in copy a_1 (goal)
+
+in(c, ~M) with ~M = mk_ticket(endpKey,ctx_2) at {6} in copy a_2
+
+event ticketConsumed(ctx_2) at {8} in copy a_2 (goal)
+
+The event ticketConsumed(ctx_2) is executed at {8} in copy a_1.
+The event ticketConsumed(ctx_2) is executed at {8} in copy a_2.
+A trace has been found.
+RESULT inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1)) is false.
+RESULT (but event(ticketConsumed(x_1)) ==> event(ticketIssued(x_1)) is true.)
+-- Query not attacker(endpKey[]) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(endpKey[])
+RESULT not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query inj-event(ticketConsumed(x_1)) ==> inj-event(ticketIssued(x_1)) is false.
+
+Query not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+

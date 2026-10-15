@@ -1,0 +1,50 @@
+Process 0 (that is, the initial process):
+(
+    {1}!
+    {2}new ctx: bitstring;
+    {3}new ks: bitstring;
+    {4}event beginSession(ctx);
+    {5}out(c, mk_ticket(endpKey,ctx));
+    {6}new n: bitstring;
+    {7}out(c, aead_enc(ks,n,secretPayload))
+) | (
+    {8}!
+    {9}in(c, t: bitstring);
+    {10}let x: bitstring = open_ticket(endpKey,t) in
+    {11}event endSession(x)
+) | (
+    {12}out(c, mk_ticket(attackerKey,forgedCtx));
+    {13}new m: bitstring;
+    {14}out(c, aead_enc(attackerKey,m,forgedCtx))
+)
+
+-- Query event(endSession(x_1)) ==> event(beginSession(x_1)) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query event(endSession(x_1)) ==> event(beginSession(x_1))
+goal reachable: b-event(beginSession(ctx_1)) -> event(endSession(ctx_1))
+Abbreviations:
+ctx_1 = ctx[!1 = @sid]
+RESULT event(endSession(x_1)) ==> event(beginSession(x_1)) is true.
+-- Query not attacker(secretPayload[]) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(secretPayload[])
+RESULT not attacker(secretPayload[]) is true.
+-- Query not attacker(endpKey[]) in process 0.
+Translating the process into Horn clauses...
+Completing...
+Starting query not attacker(endpKey[])
+RESULT not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query event(endSession(x_1)) ==> event(beginSession(x_1)) is true.
+
+Query not attacker(secretPayload[]) is true.
+
+Query not attacker(endpKey[]) is true.
+
+--------------------------------------------------------------
+

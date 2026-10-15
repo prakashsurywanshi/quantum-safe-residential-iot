@@ -1,0 +1,4 @@
+metric,median,p05,p95
+PQC vs Classical (+%),108.58,46.33,217.36
+Hybrid vs PQC (-%),96.79,96.72,96.88
+Hybrid vs Classical (-%),93.3,89.62,95.43

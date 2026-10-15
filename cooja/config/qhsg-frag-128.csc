@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simconf>
+  <simulation>
+    <title>QHSG 6LoWPAN fragmentation probe (len=128)</title>
+    <randomseed>123456</randomseed>
+    <motedelay_us>1000000</motedelay_us>
+    <radiomedium>
+      org.contikios.cooja.radiomediums.UDGM
+      <transmitting_range>50.0</transmitting_range>
+      <interference_range>100.0</interference_range>
+      <success_ratio_tx>1.0</success_ratio_tx>
+      <success_ratio_rx>1.0</success_ratio_rx>
+    </radiomedium>
+    <events>
+      <logoutput>40000</logoutput>
+    </events>
+    <motetype>
+      org.contikios.cooja.contikimote.ContikiMoteType
+      <identifier>mtypeRoot</identifier>
+      <description>RPL root / UDP server</description>
+      <source>[CONTIKI_DIR]/examples/qhsg-udp/qhsg-server.c</source>
+      <commands>$(MAKE) -j$(CPUS) qhsg-server.cooja TARGET=cooja</commands>
+      <moteinterface>org.contikios.cooja.interfaces.Position</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.Battery</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiVib</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiMoteID</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiRS232</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiBeeper</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.RimeAddress</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiIPAddress</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiRadio</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiButton</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiPIR</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiClock</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiLED</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiCFS</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiEEPROM</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.Mote2MoteRelations</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.MoteAttributes</moteinterface>
+    </motetype>
+    <motetype>
+      org.contikios.cooja.contikimote.ContikiMoteType
+      <identifier>mtypeProbe</identifier>
+      <description>QHSG probe client (len=128)</description>
+      <source>[CONTIKI_DIR]/examples/qhsg-udp/qhsg-probe-128.c</source>
+      <commands>$(MAKE) -j$(CPUS) qhsg-probe-128.cooja TARGET=cooja</commands>
+      <moteinterface>org.contikios.cooja.interfaces.Position</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.Battery</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiVib</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiMoteID</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiRS232</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiBeeper</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.RimeAddress</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiIPAddress</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiRadio</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiButton</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiPIR</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiClock</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiLED</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiCFS</moteinterface>
+      <moteinterface>org.contikios.cooja.contikimote.interfaces.ContikiEEPROM</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.Mote2MoteRelations</moteinterface>
+      <moteinterface>org.contikios.cooja.interfaces.MoteAttributes</moteinterface>
+    </motetype>
+    <mote>
+      <interface_config>
+        org.contikios.cooja.interfaces.Position
+        <x>40.0</x>
+        <y>40.0</y>
+        <z>0.0</z>
+      </interface_config>
+      <interface_config>
+        org.contikios.cooja.contikimote.interfaces.ContikiMoteID
+        <id>1</id>
+      </interface_config>
+      <interface_config>
+        org.contikios.cooja.contikimote.interfaces.ContikiRadio
+        <bitrate>250.0</bitrate>
+      </interface_config>
+      <motetype_identifier>mtypeRoot</motetype_identifier>
+    </mote>
+    <mote>
+      <interface_config>
+        org.contikios.cooja.interfaces.Position
+        <x>30.0</x>
+        <y>40.0</y>
+        <z>0.0</z>
+      </interface_config>
+      <interface_config>
+        org.contikios.cooja.contikimote.interfaces.ContikiMoteID
+        <id>2</id>
+      </interface_config>
+      <interface_config>
+        org.contikios.cooja.contikimote.interfaces.ContikiRadio
+        <bitrate>250.0</bitrate>
+      </interface_config>
+      <motetype_identifier>mtypeProbe</motetype_identifier>
+    </mote>
+  </simulation>
+  <plugin>
+    org.contikios.cooja.plugins.LogListener
+    <plugin_config>
+      <filter>Probe</filter>
+      <formatted_time />
+    </plugin_config>
+  </plugin>
+  <plugin>
+    org.contikios.cooja.plugins.ScriptRunner
+    <plugin_config>
+      <script>TIMEOUT(900000);
+log.writeFile("/home/user/contiki-ng/examples/qhsg-udp/results-128.txt", "run_start len=128\n");
+while(true) {
+  WAIT_UNTIL(true);
+  log.append("/home/user/contiki-ng/examples/qhsg-udp/results-128.txt", id + "|" + msg + "\n");
+  if(msg.contains("QHSG done")) {
+    log.testOK();
+  }
+  YIELD();
+}
+</script>
+      <active>true</active>
+    </plugin_config>
+  </plugin>
+</simconf>

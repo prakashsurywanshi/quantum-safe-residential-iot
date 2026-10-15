@@ -1,0 +1,23 @@
+{
+  "unit_mJ": {
+    "Classical": 1.5763,
+    "PQC-Only": 3.284556,
+    "QKD-Assisted": 0.105248,
+    "Hybrid QHSG": 0.105248
+  },
+  "fragments": {
+    "Classical": 2,
+    "PQC-Only": 24,
+    "QKD-Assisted": 1,
+    "Hybrid QHSG": 1
+  },
+  "N100": {
+    "Classical": 157.63,
+    "PQC": 328.46,
+    "QKD": 10.52,
+    "Hybrid": 10.52
+  },
+  "pct_PQC_vs_Classical": 108.37,
+  "pct_Hybrid_vs_PQC": 96.8,
+  "pct_Hybrid_vs_Classical": 93.33
+}

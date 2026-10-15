@@ -1,0 +1,607 @@
+run_start len=2272
+2|[INFO: Main      ] Starting Contiki-NG-7a4df8a-dirty
+2|[INFO: Main      ] - Routing: RPL Lite
+2|[INFO: Main      ] - Net: sicslowpan
+2|[INFO: Main      ] - MAC: CSMA
+2|[INFO: Main      ] - 802.15.4 PANID: 0xabcd
+2|[INFO: Main      ] - 802.15.4 Default channel: 26
+2|[INFO: Main      ] Node ID: 2
+2|[INFO: Main      ] Link-layer address: 0002.0002.0002.0002
+2|[INFO: Main      ] Tentative link-local IPv6 address: fe80::202:2:2:2
+2|[INFO: Probe     ] QHSG cfg payload=2272 uip_bufsize=3000
+1|[INFO: Main      ] Starting Contiki-NG-7a4df8a-dirty
+1|[INFO: Main      ] - Routing: RPL Lite
+1|[INFO: Main      ] - Net: sicslowpan
+1|[INFO: Main      ] - MAC: CSMA
+1|[INFO: Main      ] - 802.15.4 PANID: 0xabcd
+1|[INFO: Main      ] - 802.15.4 Default channel: 26
+1|[INFO: Main      ] Node ID: 1
+1|[INFO: Main      ] Link-layer address: 0001.0001.0001.0001
+1|[INFO: Main      ] Tentative link-local IPv6 address: fe80::201:1:1:1
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 3, total len 116 -> 79, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 79 (100)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 79 (100)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG waiting for root
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 98
+2|[INFO: 6LoWPAN   ] output: header len 48 -> 12, total len 98 -> 62, MAC max payload 104, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 62 (83)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 62 (83)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 98
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 56
+1|[INFO: 6LoWPAN   ] output: header len 48 -> 12, total len 56 -> 20, MAC max payload 104, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 0002.0002.0002.0002 21 20 (41)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0002.0002.0002.0002 21 20 (41)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 56
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=0 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 2328
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 2328 -> 2290, MAC max payload 104, frag_needed 1
+2|[INFO: 6LoWPAN   ] output: fragmentation needed. fragments: 24, free queuebufs: 64
+2|[INFO: 6LoWPAN   ] output: fragment 1/24 (tag 0, payload 80)
+2|[INFO: 6LoWPAN   ] output: fragment 2/24 (tag 0, payload 96, offset 136)
+2|[INFO: 6LoWPAN   ] output: fragment 3/24 (tag 0, payload 96, offset 232)
+2|[INFO: 6LoWPAN   ] output: fragment 4/24 (tag 0, payload 96, offset 328)
+2|[INFO: 6LoWPAN   ] output: fragment 5/24 (tag 0, payload 96, offset 424)
+2|[INFO: 6LoWPAN   ] output: fragment 6/24 (tag 0, payload 96, offset 520)
+2|[INFO: 6LoWPAN   ] output: fragment 7/24 (tag 0, payload 96, offset 616)
+2|[INFO: 6LoWPAN   ] output: fragment 8/24 (tag 0, payload 96, offset 712)
+2|[INFO: 6LoWPAN   ] output: fragment 9/24 (tag 0, payload 96, offset 808)
+2|[INFO: 6LoWPAN   ] output: fragment 10/24 (tag 0, payload 96, offset 904)
+2|[INFO: 6LoWPAN   ] output: fragment 11/24 (tag 0, payload 96, offset 1000)
+2|[INFO: 6LoWPAN   ] output: fragment 12/24 (tag 0, payload 96, offset 1096)
+2|[INFO: 6LoWPAN   ] output: fragment 13/24 (tag 0, payload 96, offset 1192)
+2|[INFO: 6LoWPAN   ] output: fragment 14/24 (tag 0, payload 96, offset 1288)
+2|[INFO: 6LoWPAN   ] output: fragment 15/24 (tag 0, payload 96, offset 1384)
+2|[INFO: 6LoWPAN   ] output: fragment 16/24 (tag 0, payload 96, offset 1480)
+2|[INFO: 6LoWPAN   ] output: fragment 17/24 (tag 0, payload 96, offset 1576)
+2|[INFO: 6LoWPAN   ] output: fragment 18/24 (tag 0, payload 96, offset 1672)
+2|[INFO: 6LoWPAN   ] output: fragment 19/24 (tag 0, payload 96, offset 1768)
+2|[INFO: 6LoWPAN   ] output: fragment 20/24 (tag 0, payload 96, offset 1864)
+2|[INFO: 6LoWPAN   ] output: fragment 21/24 (tag 0, payload 96, offset 1960)
+2|[INFO: 6LoWPAN   ] output: fragment 22/24 (tag 0, payload 96, offset 2056)
+2|[INFO: 6LoWPAN   ] output: fragment 23/24 (tag 0, payload 96, offset 2152)
+2|[INFO: 6LoWPAN   ] output: fragment 24/24 (tag 0, payload 80, offset 2248)
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 102 (123)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 102 (123)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xc0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 85 (106)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 85 (106)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Probe     ] QHSG_TX_END seq=0 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=1 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 2328
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 2328 -> 2290, MAC max payload 104, frag_needed 1
+2|[INFO: 6LoWPAN   ] output: fragmentation needed. fragments: 24, free queuebufs: 64
+2|[INFO: 6LoWPAN   ] output: fragment 1/24 (tag 1, payload 80)
+2|[INFO: 6LoWPAN   ] output: fragment 2/24 (tag 1, payload 96, offset 136)
+2|[INFO: 6LoWPAN   ] output: fragment 3/24 (tag 1, payload 96, offset 232)
+2|[INFO: 6LoWPAN   ] output: fragment 4/24 (tag 1, payload 96, offset 328)
+2|[INFO: 6LoWPAN   ] output: fragment 5/24 (tag 1, payload 96, offset 424)
+2|[INFO: 6LoWPAN   ] output: fragment 6/24 (tag 1, payload 96, offset 520)
+2|[INFO: 6LoWPAN   ] output: fragment 7/24 (tag 1, payload 96, offset 616)
+2|[INFO: 6LoWPAN   ] output: fragment 8/24 (tag 1, payload 96, offset 712)
+2|[INFO: 6LoWPAN   ] output: fragment 9/24 (tag 1, payload 96, offset 808)
+2|[INFO: 6LoWPAN   ] output: fragment 10/24 (tag 1, payload 96, offset 904)
+2|[INFO: 6LoWPAN   ] output: fragment 11/24 (tag 1, payload 96, offset 1000)
+2|[INFO: 6LoWPAN   ] output: fragment 12/24 (tag 1, payload 96, offset 1096)
+2|[INFO: 6LoWPAN   ] output: fragment 13/24 (tag 1, payload 96, offset 1192)
+2|[INFO: 6LoWPAN   ] output: fragment 14/24 (tag 1, payload 96, offset 1288)
+2|[INFO: 6LoWPAN   ] output: fragment 15/24 (tag 1, payload 96, offset 1384)
+2|[INFO: 6LoWPAN   ] output: fragment 16/24 (tag 1, payload 96, offset 1480)
+2|[INFO: 6LoWPAN   ] output: fragment 17/24 (tag 1, payload 96, offset 1576)
+2|[INFO: 6LoWPAN   ] output: fragment 18/24 (tag 1, payload 96, offset 1672)
+2|[INFO: 6LoWPAN   ] output: fragment 19/24 (tag 1, payload 96, offset 1768)
+2|[INFO: 6LoWPAN   ] output: fragment 20/24 (tag 1, payload 96, offset 1864)
+2|[INFO: 6LoWPAN   ] output: fragment 21/24 (tag 1, payload 96, offset 1960)
+2|[INFO: 6LoWPAN   ] output: fragment 22/24 (tag 1, payload 96, offset 2056)
+2|[INFO: 6LoWPAN   ] output: fragment 23/24 (tag 1, payload 96, offset 2152)
+2|[INFO: 6LoWPAN   ] output: fragment 24/24 (tag 1, payload 80, offset 2248)
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 102 (123)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 102 (123)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xc0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 85 (106)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 85 (106)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Probe     ] QHSG_TX_END seq=1 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=2 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 2328
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 2328 -> 2290, MAC max payload 104, frag_needed 1
+2|[INFO: 6LoWPAN   ] output: fragmentation needed. fragments: 24, free queuebufs: 64
+2|[INFO: 6LoWPAN   ] output: fragment 1/24 (tag 2, payload 80)
+2|[INFO: 6LoWPAN   ] output: fragment 2/24 (tag 2, payload 96, offset 136)
+2|[INFO: 6LoWPAN   ] output: fragment 3/24 (tag 2, payload 96, offset 232)
+2|[INFO: 6LoWPAN   ] output: fragment 4/24 (tag 2, payload 96, offset 328)
+2|[INFO: 6LoWPAN   ] output: fragment 5/24 (tag 2, payload 96, offset 424)
+2|[INFO: 6LoWPAN   ] output: fragment 6/24 (tag 2, payload 96, offset 520)
+2|[INFO: 6LoWPAN   ] output: fragment 7/24 (tag 2, payload 96, offset 616)
+2|[INFO: 6LoWPAN   ] output: fragment 8/24 (tag 2, payload 96, offset 712)
+2|[INFO: 6LoWPAN   ] output: fragment 9/24 (tag 2, payload 96, offset 808)
+2|[INFO: 6LoWPAN   ] output: fragment 10/24 (tag 2, payload 96, offset 904)
+2|[INFO: 6LoWPAN   ] output: fragment 11/24 (tag 2, payload 96, offset 1000)
+2|[INFO: 6LoWPAN   ] output: fragment 12/24 (tag 2, payload 96, offset 1096)
+2|[INFO: 6LoWPAN   ] output: fragment 13/24 (tag 2, payload 96, offset 1192)
+2|[INFO: 6LoWPAN   ] output: fragment 14/24 (tag 2, payload 96, offset 1288)
+2|[INFO: 6LoWPAN   ] output: fragment 15/24 (tag 2, payload 96, offset 1384)
+2|[INFO: 6LoWPAN   ] output: fragment 16/24 (tag 2, payload 96, offset 1480)
+2|[INFO: 6LoWPAN   ] output: fragment 17/24 (tag 2, payload 96, offset 1576)
+2|[INFO: 6LoWPAN   ] output: fragment 18/24 (tag 2, payload 96, offset 1672)
+2|[INFO: 6LoWPAN   ] output: fragment 19/24 (tag 2, payload 96, offset 1768)
+2|[INFO: 6LoWPAN   ] output: fragment 20/24 (tag 2, payload 96, offset 1864)
+2|[INFO: 6LoWPAN   ] output: fragment 21/24 (tag 2, payload 96, offset 1960)
+2|[INFO: 6LoWPAN   ] output: fragment 22/24 (tag 2, payload 96, offset 2056)
+2|[INFO: 6LoWPAN   ] output: fragment 23/24 (tag 2, payload 96, offset 2152)
+2|[INFO: 6LoWPAN   ] output: fragment 24/24 (tag 2, payload 80, offset 2248)
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 102 (123)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 102 (123)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xc0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 85 (106)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 85 (106)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Probe     ] QHSG_TX_END seq=2 len=2272
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=3 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 2328
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 2328 -> 2290, MAC max payload 104, frag_needed 1
+2|[INFO: 6LoWPAN   ] output: fragmentation needed. fragments: 24, free queuebufs: 64
+2|[INFO: 6LoWPAN   ] output: fragment 1/24 (tag 3, payload 80)
+2|[INFO: 6LoWPAN   ] output: fragment 2/24 (tag 3, payload 96, offset 136)
+2|[INFO: 6LoWPAN   ] output: fragment 3/24 (tag 3, payload 96, offset 232)
+2|[INFO: 6LoWPAN   ] output: fragment 4/24 (tag 3, payload 96, offset 328)
+2|[INFO: 6LoWPAN   ] output: fragment 5/24 (tag 3, payload 96, offset 424)
+2|[INFO: 6LoWPAN   ] output: fragment 6/24 (tag 3, payload 96, offset 520)
+2|[INFO: 6LoWPAN   ] output: fragment 7/24 (tag 3, payload 96, offset 616)
+2|[INFO: 6LoWPAN   ] output: fragment 8/24 (tag 3, payload 96, offset 712)
+2|[INFO: 6LoWPAN   ] output: fragment 9/24 (tag 3, payload 96, offset 808)
+2|[INFO: 6LoWPAN   ] output: fragment 10/24 (tag 3, payload 96, offset 904)
+2|[INFO: 6LoWPAN   ] output: fragment 11/24 (tag 3, payload 96, offset 1000)
+2|[INFO: 6LoWPAN   ] output: fragment 12/24 (tag 3, payload 96, offset 1096)
+2|[INFO: 6LoWPAN   ] output: fragment 13/24 (tag 3, payload 96, offset 1192)
+2|[INFO: 6LoWPAN   ] output: fragment 14/24 (tag 3, payload 96, offset 1288)
+2|[INFO: 6LoWPAN   ] output: fragment 15/24 (tag 3, payload 96, offset 1384)
+2|[INFO: 6LoWPAN   ] output: fragment 16/24 (tag 3, payload 96, offset 1480)
+2|[INFO: 6LoWPAN   ] output: fragment 17/24 (tag 3, payload 96, offset 1576)
+2|[INFO: 6LoWPAN   ] output: fragment 18/24 (tag 3, payload 96, offset 1672)
+2|[INFO: 6LoWPAN   ] output: fragment 19/24 (tag 3, payload 96, offset 1768)
+2|[INFO: 6LoWPAN   ] output: fragment 20/24 (tag 3, payload 96, offset 1864)
+2|[INFO: 6LoWPAN   ] output: fragment 21/24 (tag 3, payload 96, offset 1960)
+2|[INFO: 6LoWPAN   ] output: fragment 22/24 (tag 3, payload 96, offset 2056)
+2|[INFO: 6LoWPAN   ] output: fragment 23/24 (tag 3, payload 96, offset 2152)
+2|[INFO: 6LoWPAN   ] output: fragment 24/24 (tag 3, payload 80, offset 2248)
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 102 (123)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 102 (123)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xc0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 85 (106)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 85 (106)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Probe     ] QHSG_TX_END seq=3 len=2272
+1|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+1|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+1|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+2|[INFO: Frame 15.4] In:  1 0001.0001.0001.0001 0000.0000.0000.0000 15 80 (95)
+2|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_BEGIN seq=4 len=2272
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 2328
+2|[INFO: 6LoWPAN   ] output: header len 56 -> 18, total len 2328 -> 2290, MAC max payload 104, frag_needed 1
+2|[INFO: 6LoWPAN   ] output: fragmentation needed. fragments: 24, free queuebufs: 64
+2|[INFO: 6LoWPAN   ] output: fragment 1/24 (tag 4, payload 80)
+2|[INFO: 6LoWPAN   ] output: fragment 2/24 (tag 4, payload 96, offset 136)
+2|[INFO: 6LoWPAN   ] output: fragment 3/24 (tag 4, payload 96, offset 232)
+2|[INFO: 6LoWPAN   ] output: fragment 4/24 (tag 4, payload 96, offset 328)
+2|[INFO: 6LoWPAN   ] output: fragment 5/24 (tag 4, payload 96, offset 424)
+2|[INFO: 6LoWPAN   ] output: fragment 6/24 (tag 4, payload 96, offset 520)
+2|[INFO: 6LoWPAN   ] output: fragment 7/24 (tag 4, payload 96, offset 616)
+2|[INFO: 6LoWPAN   ] output: fragment 8/24 (tag 4, payload 96, offset 712)
+2|[INFO: 6LoWPAN   ] output: fragment 9/24 (tag 4, payload 96, offset 808)
+2|[INFO: 6LoWPAN   ] output: fragment 10/24 (tag 4, payload 96, offset 904)
+2|[INFO: 6LoWPAN   ] output: fragment 11/24 (tag 4, payload 96, offset 1000)
+2|[INFO: 6LoWPAN   ] output: fragment 12/24 (tag 4, payload 96, offset 1096)
+2|[INFO: 6LoWPAN   ] output: fragment 13/24 (tag 4, payload 96, offset 1192)
+2|[INFO: 6LoWPAN   ] output: fragment 14/24 (tag 4, payload 96, offset 1288)
+2|[INFO: 6LoWPAN   ] output: fragment 15/24 (tag 4, payload 96, offset 1384)
+2|[INFO: 6LoWPAN   ] output: fragment 16/24 (tag 4, payload 96, offset 1480)
+2|[INFO: 6LoWPAN   ] output: fragment 17/24 (tag 4, payload 96, offset 1576)
+2|[INFO: 6LoWPAN   ] output: fragment 18/24 (tag 4, payload 96, offset 1672)
+2|[INFO: 6LoWPAN   ] output: fragment 19/24 (tag 4, payload 96, offset 1768)
+2|[INFO: 6LoWPAN   ] output: fragment 20/24 (tag 4, payload 96, offset 1864)
+2|[INFO: 6LoWPAN   ] output: fragment 21/24 (tag 4, payload 96, offset 1960)
+2|[INFO: 6LoWPAN   ] output: fragment 22/24 (tag 4, payload 96, offset 2056)
+2|[INFO: 6LoWPAN   ] output: fragment 23/24 (tag 4, payload 96, offset 2152)
+2|[INFO: 6LoWPAN   ] output: fragment 24/24 (tag 4, payload 80, offset 2248)
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 102 (123)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 102 (123)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xc0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 101 (122)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 101 (122)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: Frame 15.4] Out:  1 0001.0001.0001.0001 21 85 (106)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0001.0001.0001.0001 21 85 (106)
+1|[ERR : 6LoWPAN   ] uncompression: unknown dispatch: 0xe0, or IPHC disabled
+2|[INFO: 6LoWPAN   ] output: sending IPv6 packet with len 116
+2|[INFO: 6LoWPAN   ] output: header len 40 -> 4, total len 116 -> 80, MAC max payload 110, frag_needed 0
+2|[INFO: Frame 15.4] Out:  1 ffff.0000.0000.0000 15 80 (95)
+1|[INFO: Frame 15.4] In:  1 0002.0002.0002.0002 0000.0000.0000.0000 15 80 (95)
+1|[INFO: 6LoWPAN   ] input: received IPv6 packet with len 116
+2|[INFO: Probe     ] QHSG_TX_END seq=4 len=2272
+2|[INFO: Probe     ] QHSG done

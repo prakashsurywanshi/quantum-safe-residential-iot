@@ -1,0 +1,65 @@
+(* ============================================================
+   replay_packetloss_bound.pv
+   Ticket replay under packet loss / delay / reordering ---
+   WITH the per-connection sequence-number binding (Eq. 3).
+
+   The local link is lossy and reordering: the Dolev-Yao channel c
+   lets the attacker drop, delay, duplicate, reorder and replay any
+   message.  The endpoint therefore runs a RETRY loop: after a loss
+   it starts a fresh attempt carrying a fresh SeqNum challenge z
+   (this is the SeqNum field of C = DevID || QHSG_ID || SeqNum ||
+   Version, Eq. 3, bound diffie-hellman-style into the ticket).
+
+   The gateway issues each ticket bound to the endpoint's z:
+
+       ticket = mk_ticket(endpKey, z, ctx)
+
+   The endpoint admits a ticket only when the embedded z equals the
+   z of the CURRENT attempt.  A delayed/reordered/retransmitted
+   ticket from an earlier attempt carries a stale z and is rejected.
+
+   Invariant to prove (single-use, no re-entry):
+
+       inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x))
+
+   Result: HOLDS --- each issued session context is consumed at
+   most once, even under arbitrary loss/reorder/replay.
+   ============================================================ *)
+
+free c : channel.
+
+(* --- device ticket key (pre-shared, private) --- *)
+free endpKey : bitstring [private].
+
+(* --- ticket carries (z, ctx); z = endpoint SeqNum challenge --- *)
+fun mk_ticket(bitstring, bitstring, bitstring) : bitstring.
+reduc forall devk : bitstring, z : bitstring, ctx : bitstring;
+  open_ticket(devk, mk_ticket(devk, z, ctx)) = (z, ctx).
+
+event ticketIssued(bitstring).
+event ticketConsumed(bitstring).
+
+(* --- gateway: answer the endpoint's challenge, issue ticket bound to z --- *)
+let gatewaySession =
+  in(c, z : bitstring);
+  new ctx : bitstring;                          (* fresh session context *)
+  event ticketIssued(ctx);
+  out(c, mk_ticket(endpKey, z, ctx)).
+
+(* --- endpoint: fresh SeqNum challenge per attempt; admit iff z matches --- *)
+let endpointSession =
+  new z : bitstring;                            (* fresh SeqNum for this attempt *)
+  out(c, z);                                    (* may be lost or delayed *)
+  in(c, t : bitstring);                         (* may receive any (stale) ticket *)
+  let (w : bitstring, x : bitstring) = open_ticket(endpKey, t) in
+  if w = z then
+    (event ticketConsumed(x); 0)                (* fresh attempt: consume once *)
+  else
+    0.                                          (* stale/reordered: reject *)
+
+(* ---------- queries (declared before the main process) ---------- *)
+query x : bitstring; inj-event(ticketConsumed(x)) ==> inj-event(ticketIssued(x)).
+query attacker(endpKey).
+
+process
+  !gatewaySession | !endpointSession
